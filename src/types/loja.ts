@@ -5,7 +5,8 @@ export interface ILoja {
   address?: string;
   number?: string;
   logo?: string;
-  service_start_date: string;
-  end_service_date: string;
-
+  service_start_date: Date;
+  end_service_date: Date;
+  time_open?: string;
+  time_close?: string;
 }

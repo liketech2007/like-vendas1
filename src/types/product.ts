@@ -1,9 +1,9 @@
 export interface IProduct {
   id_store: number;
   name: string;
-  price: string;
+  price: number;
   description: string;
-  quantity: string;
+  quantity: number;
   category: string;
   minimum_stock_level: string;
 }

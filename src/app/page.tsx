@@ -1,4 +1,6 @@
+import Header from "@/components/header"
 import { actionStoreCreate } from "./endpoints/store/create/action"
+import Footer from "@/components/footer"
 /*import CryptoJS from "crypto-js"
  const dateInit = new Date()
   const dateEnd = new Date()
@@ -17,8 +19,12 @@ import { actionStoreCreate } from "./endpoints/store/create/action"
   console.log(res)*/
 export default async function Home() {
   return (
-    <h1>
-      Ola mundo
-    </h1>
+    <>
+      <Header />
+      <main>
+        <h1>Home</h1>
+      </main>
+      <Footer />
+    </>
   )
 }
