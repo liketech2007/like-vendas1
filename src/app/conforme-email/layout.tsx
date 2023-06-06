@@ -3,11 +3,11 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Like Vendas - Cadastro',
+  title: 'Like Vendas - Confirmação de email',
   description: 'Like Vendas - Cadastro',
 }
 
-export default function ConformeMemailLayout({
+export default function CadastroLayout({
   children,
 }: {
   children: React.ReactNode

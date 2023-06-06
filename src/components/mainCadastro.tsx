@@ -6,14 +6,13 @@ import { useState } from "react";
 import { useForm,SubmitHandler } from "react-hook-form";
 import CryptoJS from "crypto-js"
 import z from "zod"
-import { authCreate } from "@/app/auth/create/auth";
-import { authSign } from "@/app/auth/sign/auth";
 
 const schema = z.object({
   email: z.string(),
   password: z.string(),
   nameStore: z.string(),
   tel: z.string(),
+  file: z.string(),
   address: z.string(),
   time_open: z.string(),
   time_close: z.string(),
@@ -22,10 +21,14 @@ type IFormInput = z.infer<typeof schema>;
 
 
 export function MainCadastro() {
+ 
   const { register, handleSubmit,formState: { errors } } = useForm<IFormInput>();
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<Blob | undefined>();
   const [fileName,setFileName] = useState("")
+  const [error, setError] = useState("")
+  
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const { email, password,nameStore:name,tel:number,address,time_close,time_open} = data
     const dateStart = new Date()
@@ -33,13 +36,19 @@ export function MainCadastro() {
     dateEnd.setDate(dateEnd.getDate() + 15)
     setLoading(true)
     const res = await uploadFile(file,fileName)
-    await actionStoreCreate({ email,password: CryptoJS.AES.encrypt(password, `${process.env.NEXT_PUBLIC_ENCRIPTO_KEY}`).toString(),name,number,logo:`${res}`,address,time_close,time_open, service_start_date:dateStart, end_service_date:dateEnd })
-    await authCreate({ email, password: CryptoJS.AES.encrypt(password, `${process.env.NEXT_PUBLIC_ENCRIPTO_KEY}`).toString()})
+    const res1 = await actionStoreCreate({ email,password: CryptoJS.AES.encrypt(password, `${process.env.NEXT_PUBLIC_ENCRIPTO_KEY}`).toString(),name,number,logo:`${res}`,address,time_close,time_open, service_start_date:dateStart, end_service_date:dateEnd })
+    if(res1.error == null){
+      window.location.href =  "/conforme-email"
+      setLoading(false)
+    }else {
+      setError(`${res1.statusText}`)
+      setLoading(false)
+    }
     setLoading(false)
   }
   return (
     <main className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 min-h-[80vh]">
-      <Typography variant="h2" classname="my-8 mb-12">
+      <Typography variant="h2" className="my-8 mb-12">
         <div className="my-16 text-center">
         Cadastra-se já
         </div>
@@ -60,7 +69,7 @@ export function MainCadastro() {
             </div>
             <Input label="Nome da Loja" className="w-full" {...register("nameStore", { required: true })}/>
             <Input  label="Telefone" type="tel" className="w-full" {...register("tel", { required: true })}/>
-            <Input  label="logotipo" type="file" className="w-full" onChange={(e:any) => {
+            <Input  label="logotipo" type="file" className="w-full" {...register("file", { required: true })} onChange={(e:any) => {
               const file = e.target.files[0]
               setFileName(file.name)
               const reader = new FileReader();
@@ -82,9 +91,9 @@ export function MainCadastro() {
             { loading && <Spinner />}
           </Button>
           {
-            errors && fileName.length == 0 ? <div className="">
+            errors.address || errors.email || errors.nameStore || errors.password || errors.tel || errors.time_close || errors.time_open ? <div className="">
               <Alert color="red" variant="gradient">
-              <span>Preencha correctamento os campos acima para continuar.</span>
+              <span>{error.length == 0 ? "Preencha correctamento os campos acima para continuar." : error }</span>
             </Alert>
             </div> : null
           }
