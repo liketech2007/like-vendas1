@@ -1,5 +1,6 @@
+
 export interface IUpdateUser {
   id: number;
   camp: string;
-  value: string;
+  value: string | boolean;
 }

@@ -1,8 +1,13 @@
+import Footer from "@/components/footer";
+import { HeaderLogin } from "@/components/headeLogin";
+import { MainLogin } from "@/components/mainLogin";
 
 export default function Login() {
   return (
     <>
-      <h1>oi</h1>
+       <HeaderLogin />
+      <MainLogin />
+      <Footer />
     </>
   )
 }

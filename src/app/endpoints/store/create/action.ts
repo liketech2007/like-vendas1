@@ -19,13 +19,14 @@ export async function actionStoreCreate({name,email,password,logo,service_start_
     time_open,
     number,
     id_auth,
+    auth: true,
     address
   })
   .select()
   if(res.error === null && res.data) {
-   await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/email?id=1&email=${email}&subject=${"Confiemação de Email"}&html=${render(EmailConfirme(id_auth))}`,{
+   /*await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/email?id=1&email=${email}&subject=${"Confiemação de Email"}&html=${render(EmailConfirme(id_auth))}`,{
     method: "GET"
-   })
+   })*/
   }
   return res 
 }

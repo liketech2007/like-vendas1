@@ -64,18 +64,19 @@ export default function Header() {
   );
  
   return (
-    <Navbar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4">
+    <Navbar className="w-full mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
          <Link href="#">
           <Image src="https://media.graphassets.com/4JvM0qeQLyHeRMHl4jw7" width={150} height={100} alt="Logo do like vendas"/>
          </Link>
         <div className="hidden lg:block">{navList}</div>
-
-        <Button variant="gradient" size="sm" fullWidth className="mb-2">
+        <div className="max-w-[150px]">
+        <Button variant="gradient" size="sm" fullWidth className="mb-2 hidden lg:block">
             <Link href="/cadastro">
             <span>Cadastra-se já</span>
             </Link>
           </Button>
+         </div> 
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -117,11 +118,13 @@ export default function Header() {
       <MobileNav open={openNav}>
         <div className="container mx-auto">
           {navList}
+          <div className="max-w-[150px]">
           <Button variant="gradient" size="sm" fullWidth className="mb-2">
             <Link href="/cadastro">
             <span>Cadastra-se já</span>
             </Link>
           </Button>
+          </div>
         </div>
       </MobileNav>
     </Navbar>

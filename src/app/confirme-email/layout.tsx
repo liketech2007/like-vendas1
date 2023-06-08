@@ -7,7 +7,7 @@ export const metadata = {
   description: 'Like Vendas - Cadastro',
 }
 
-export default function CadastroLayout({
+export default function ConfirmeLayout({
   children,
 }: {
   children: React.ReactNode

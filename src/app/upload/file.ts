@@ -7,7 +7,7 @@ export async function uploadFile(file:any, fileName:string) {
   const { data, error } = await supabase
     .storage
     .from('image')
-    .upload(`${filename[0]}${uid}.png`, file, {
+    .upload(`${uid}.png`, file, {
       cacheControl: '3600',
       upsert: false
     })

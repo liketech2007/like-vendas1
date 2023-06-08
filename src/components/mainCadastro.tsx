@@ -35,14 +35,16 @@ export function MainCadastro() {
     const dateEnd = new Date()
     dateEnd.setDate(dateEnd.getDate() + 15)
     setLoading(true)
-    const res = await uploadFile(file,fileName)
-    const res1 = await actionStoreCreate({ email,password: CryptoJS.AES.encrypt(password, `${process.env.NEXT_PUBLIC_ENCRIPTO_KEY}`).toString(),name,number,logo:`${res}`,address,time_close,time_open, service_start_date:dateStart, end_service_date:dateEnd })
+    if(file !== undefined) {
+      const res = await uploadFile(file,fileName)
+    const res1 = await actionStoreCreate({ email, password: CryptoJS.AES.encrypt(password, `${process.env.NEXT_PUBLIC_ENCRIPTO_KEY}`).toString(),name,number,logo:`${res}`,address,time_close,time_open, service_start_date:dateStart, end_service_date:dateEnd })
     if(res1.error == null){
-      window.location.href =  "/conforme-email"
+      window.location.href =  "/"
       setLoading(false)
     }else {
       setError(`${res1.statusText}`)
       setLoading(false)
+    }
     }
     setLoading(false)
   }
@@ -91,7 +93,7 @@ export function MainCadastro() {
             { loading && <Spinner />}
           </Button>
           {
-            errors.address || errors.email || errors.nameStore || errors.password || errors.tel || errors.time_close || errors.time_open ? <div className="">
+            errors.address || errors.email || errors.nameStore || errors.password || errors.tel || errors.time_close || errors.time_open || file === undefined ? <div className="">
               <Alert color="red" variant="gradient">
               <span>{error.length == 0 ? "Preencha correctamento os campos acima para continuar." : error }</span>
             </Alert>

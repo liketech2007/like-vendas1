@@ -5,20 +5,31 @@ import { Button, Input, Spinner, Typography,Alert } from "@material-tailwind/rea
 import z from "zod"
 import { useForm,SubmitHandler } from "react-hook-form";
 import { useState } from "react";
+import { sign } from "../auth/sign";
 
 const schema = z.object({
   code: z.string()
 })
 type IFormInput = z.infer<typeof schema>;
 
-export default function Cadastro() {
-  const [error, setError] = useState("")
+export default function ConfirmeEmail() {
+  const [error, setError] = useState<string | boolean>(false)
+  const [errorText, setErrorText] = useState<string>("")
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit,formState: { errors } } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true);
     const code = data.code;
-    setLoading(true);
+    const res = await sign(code)
+    if(res === code) {
+      setError(false)
+      window.location.href = "/"
+    }else {
+      setError(true)
+      setErrorText(res)
+      setLoading(false)
+    }
+    setLoading(false);
   }
   return (
     <>
@@ -29,7 +40,7 @@ export default function Cadastro() {
         Confirmação de Email
         </span>
       </Typography>
-      <Typography variant="p" className="text-center py-2">
+      <Typography variant="paragraph" className="text-center py-2">
         Enviamos um email com o codígo de confirmação para o seu email
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center items-center gap-4">
@@ -44,11 +55,11 @@ export default function Cadastro() {
         </div>
       </form>
       { 
-      errors.code && (
+      errors.code || error == true ?  (
         <Alert color="red" variant="gradient">
-          {errors.code.message || error}
+          {errorText  || "Preencha o compa em cima para continuar"}
         </Alert>
-      )}
+      ) : null}
       </main>
       <Footer />
     </>
