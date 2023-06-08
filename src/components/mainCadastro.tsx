@@ -33,16 +33,23 @@ export function MainCadastro() {
     const { email, password,nameStore:name,tel:number,address,time_close,time_open} = data
     const dateStart = new Date()
     const dateEnd = new Date()
+    const exp = new Date()
+    exp.setDate(exp.getDate() + 1)
     dateEnd.setDate(dateEnd.getDate() + 15)
     setLoading(true)
     if(file !== undefined) {
       const res = await uploadFile(file,fileName)
     const res1 = await actionStoreCreate({ email, password: CryptoJS.AES.encrypt(password, `${process.env.NEXT_PUBLIC_ENCRIPTO_KEY}`).toString(),name,number,logo:`${res}`,address,time_close,time_open, service_start_date:dateStart, end_service_date:dateEnd })
     if(res1.error == null){
-      window.location.href =  "/"
+      localStorage.setItem("user",JSON.stringify({
+        exp,
+        data: res1.data[0]
+      }))
+      const id_auth = res1.data[0]?.id_auth
+      window.location.href =  `/users/store/${id_auth}/dashboard`
       setLoading(false)
     }else {
-      setError(`${res1.statusText}`)
+      setError(`Erro: tente novamente ou já existe uma conta com este email`)
       setLoading(false)
     }
     }

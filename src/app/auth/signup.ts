@@ -1,3 +1,4 @@
+import { decrypto } from "@/utils/decrypto";
 import { supabase } from "@/utils/supabase";
 
 export async function signup(email: string, password: string,type:string) {
@@ -5,13 +6,15 @@ export async function signup(email: string, password: string,type:string) {
   .from(`${type}`)
   .select()
   .eq('email', email)
-  .eq('password', password)
-  console.log(data,type)
+ if(data !== null) {
+  const passwordUser = decrypto(`${data[0].password}`)
+  console.log(data,type,password)
   if(data?.length == 0) {
     return "Nenhum usuário com estás informações"
   }else if(data[0].auth === null) {
     return "Usuário não está autenticado"
-  }else {
-    return data[0].id_auth
+  }else if (passwordUser == password) {
+    return data[0]
   }
+ }
 }

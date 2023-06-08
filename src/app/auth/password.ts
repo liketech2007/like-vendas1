@@ -10,6 +10,6 @@ export async function resetPassword(email: string) {
   if(data?.length == 0) {
     return "Nenhum usuário com estás informações"
   }else {
-    return data[0].password
+    return  data !== null ? data[0].password : null
   }
 }

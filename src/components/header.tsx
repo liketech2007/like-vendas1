@@ -18,7 +18,7 @@ export default function Header() {
   }, []);
  
   const navList = (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="mb-4 mt-2 flex flex-col justify-center items-center gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
         as="li"
         variant="small"
@@ -116,7 +116,7 @@ export default function Header() {
         </IconButton>
       </div>
       <MobileNav open={openNav}>
-        <div className="container mx-auto">
+        <div className="container mx-auto flex flex-col justify-center items-end">
           {navList}
           <div className="max-w-[150px]">
           <Button variant="gradient" size="sm" fullWidth className="mb-2">

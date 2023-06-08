@@ -28,24 +28,26 @@ export function MainLogin() {
 
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    setError(false)
     const date = new Date()
     date.setDate(date.getDate() + 1)
    setLoading(true);
     const { email, password } = data;
     const type = typeSign
-    const newPassword = CryptoJS.AES.encrypt(password, `${process.env.NEXT_PUBLIC_ENCRIPTO_KEY}`).toString()
-    const res = await signup(email,newPassword,type)
-    if(res === "Nenhum usuário com estás informações" || res === "Usuário não está autenticado") {
-      setError(true)
-      setErrorText(res)
-      setLoading(false)
-    }else {
-      setError(false)
-      localStorage.setItem("user",JSON.stringify({
-        exp: `${date}`,
-        data: res
-      }))
-      window.location.href = "/"
+    const res = await signup(email,password,type)
+    if(res !== undefined) {
+      if(res === "Nenhum usuário com estás informações" || res === "Usuário não está autenticado") {
+        setError(true)
+        setErrorText(res)
+        setLoading(false)
+      }else {
+        setError(false)
+        localStorage.setItem("user",JSON.stringify({
+          exp: `${date}`,
+          data: res
+        }))
+        window.location.href = `/users/${typeSign}/${res.id_auth}/dashboard`
+      }
     }
     setLoading(false);
   };
