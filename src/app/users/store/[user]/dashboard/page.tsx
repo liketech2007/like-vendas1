@@ -1,5 +1,11 @@
+import { HeaderDashboard } from "@/components/headerDashbord";
+import { MainDashboard } from "@/components/mainDashboard";
+
 export default function Dashboard() {
   return (
-    <h1> Ola mundo </h1>
+    <>
+      <HeaderDashboard />
+      <MainDashboard />
+    </>
   )
 }
