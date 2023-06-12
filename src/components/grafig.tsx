@@ -1,8 +1,12 @@
 "use client"
-import { Button, Typography } from "@material-tailwind/react"
+import { Button, Typography,Radio } from "@material-tailwind/react"
 import Link from "next/link"
-import { Bar } from "react-chartjs-2";
+import { Bar,Pie,Line } from "react-chartjs-2";
 import { Chart, registerables } from 'chart.js';
+import Table from "./table";
+import { useState } from "react";
+import { useIdAuth } from "./useIdAuth";
+import { useRouter } from "next/navigation";
 Chart.register(...registerables);
 
 interface IGrafig {
@@ -11,20 +15,24 @@ interface IGrafig {
       label: string,
       value: number
     }[]
+    label: string,
 }
 
-export function Grafig({ type,data}: IGrafig) {
+export function Grafig({ type,data,label}: IGrafig) {
+  const router = useRouter()
   const produtos = data.map((item:any) => item.label);
-  const quantidades = data.map((item:any) => item.value);;
+  const quantidades = data.map((item:any) => item.value);
+  const [typeChart, setTypeChart] = useState<"Bar" | "Pie" | "Line">("Bar");
+  const id_auth = useIdAuth();
 
   const dataChart = {
     labels: produtos,
     datasets: [
       {
-        label: 'Vendas',
+        label,
         data: quantidades,
-        backgroundColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.9)'],
-        borderColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.9)'],
+        backgroundColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
+        borderColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderWidth: 1,
       },
     ],
@@ -34,7 +42,7 @@ export function Grafig({ type,data}: IGrafig) {
     scales: {
       y: {
         beginAtZero: true,
-        max: Math.max(...quantidades),
+        max: Math.max(...quantidades) + 10,
       },
     },
   };
@@ -42,25 +50,51 @@ export function Grafig({ type,data}: IGrafig) {
   return (
     <>
       <div className="p-4">
-      <div className="min-w-full flex gap-4 flex-wrap justify-between items-center">
+      <div className="min-w-full flex gap-4 flex-col lg:flex-row lg:justify-between items-center">
       <Typography variant="h4">
         {type === "day"? "Hoje" : type === "week"? "Semana" : type === "fortnight"? "Últimos 15 dias" : type === "month"? "Mês" : null}
       </Typography>
-      <div className="flex flex-col bg-blue-500 p-4 rounded-lg text-white">
-      <Typography variant="small"><span className="font-bold">Número de produtos vendidos: </span>12</Typography>
-      <Typography varient="small"><span className="font-bold">Número de adição de produtos: </span>1</Typography>
-        <Typography variant="small"><span className="font-bold">Total vendido: </span>12.496KZ</Typography>
-        <Typography variant="small"><span className="font-bold">Total custos: </span>10.496KZ</Typography>
-        <Typography variant="small"><span className="font-bold">Lucro: </span>2.000KZ</Typography>
+      <div className="my-2">
+        <Table tableHeard={["N.P.V","N.A.P","Total vendido","Custos","Lucro"]} 
+          tableRows={[
+            {
+              value: "12",
+            },{
+              value: "1",
+            },{
+              value: "12.798kz",
+            },{
+              value: "1.000kz",
+            },{
+              value: "11.798kz",
+            },
+        ]}
+        />
       </div>
+      </div>
+      <div className="min-w-full flex gap-2 flex-wrap justify-end items-center">
+        <div>Tipos de gráficos:</div>
+        <Radio id="html" name="type" label="Barra" onClick={() => setTypeChart("Bar")}/>
+        <Radio id="react" name="type" label="Pizza" onClick={() => setTypeChart("Pie")}/>
+        <Radio id="html" name="type" label="Linha" onClick={() => setTypeChart("Line")}/>
       </div>
       <div className="my-4 max-h-[600px]">
-      <Bar data={dataChart} options={options} />
+      {
+        typeChart === "Bar"? (
+                  <Bar data={dataChart} options={options} />
+                ) : typeChart === "Pie"? (
+                  <Pie data={dataChart} options={options} />
+                ) : typeChart === "Line"? (
+                  <Line data={dataChart} options={options} />
+                ) : null
+      }
       </div>
       <div className="min-w-full flex justify-end">
-        <Link href="#">
-          <Button>Ver mais</Button>
-        </Link>
+          <Button>
+            <Link href={`/users/store/${id_auth}/relatorio?type=${type}`}>
+              Ver mais
+            </Link>
+          </Button>
       </div>
     </div>
     </>

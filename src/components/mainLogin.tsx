@@ -7,6 +7,7 @@ import CryptoJS from "crypto-js"
 import z from "zod";
 import { signup } from "@/app/auth/signup";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   email: z.string(),
@@ -25,6 +26,7 @@ export function MainLogin() {
   const [error, setError] = useState(false)
   const [errorText, setErrorText] = useState<string>("")
   const [typeSign, setTypeSign] = useState("store")
+  const router = useRouter()
 
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
@@ -46,7 +48,7 @@ export function MainLogin() {
           exp: `${date}`,
           data: res
         }))
-        window.location.href = `/users/${typeSign}/${res.id_auth}/dashboard`
+        router.push(`/users/${typeSign}/${res.id_auth}/dashboard`)
       }
     }
     setLoading(false);

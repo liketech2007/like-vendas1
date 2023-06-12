@@ -9,16 +9,19 @@ import {
 import Image from "next/image"
 import Link from "next/link";
 import SideBarDashbord from "./sideBarDashbord";
+import { User } from "@phosphor-icons/react";
+import { useIdAuth } from "./useIdAuth";
  
 export  function HeaderDashboard() {
   const [openNav, setOpenNav] = React.useState(false);
- 
+
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
+  const id_auth = useIdAuth();
  
  
   return (
@@ -29,12 +32,11 @@ export  function HeaderDashboard() {
           <Image src="https://media.graphassets.com/4JvM0qeQLyHeRMHl4jw7" width={150} height={100} alt="Logo do like vendas"/>
          </div>
           <div className="flex items-center gap-4">
-            <div
-              className="hidden lg:inline-block">
-              <Link href="#" className="border rounded-full border-blue-500">
-              <Avatar src="/img/face-2.jpg" alt="foto do user" />
-              </Link>
-            </div>
+          <div className="hidden mb-2 p-4 border border-blue-500 rounded-full w-[50px] h-[50px] lg:flex justify-center items-center hover:bg-blue-500 hover:text-white transition-all">
+            <Link href={`/users/store/${id_auth}/perfil`}>
+            <User size={32}/>
+            </Link>
+          </div>
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"

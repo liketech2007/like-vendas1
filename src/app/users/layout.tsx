@@ -16,7 +16,7 @@ export default function UsersLayout({
 }) {
   return (
     <html lang="pt">
-      <body className={inter.className}>
+      <body className={`${inter.className} flex flex-col justify-center items-center`}>
           <CheckLocalStorage />
           <CheckPay />
         {children}

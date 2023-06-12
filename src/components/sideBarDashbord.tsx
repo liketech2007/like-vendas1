@@ -5,70 +5,75 @@ import {
   ListItem,
   ListItemPrefix,
   Avatar,
+  Typography,
 } from "@material-tailwind/react";
-import { ChartBar, Cube, HardDrives, House, Rss, SignOut, Users } from "@phosphor-icons/react";
+import { ChartBar, Cube, HardDrives, House, Rss, SignOut, User, Users } from "@phosphor-icons/react";
 import Link from "next/link";
+import { useIdAuth } from "./useIdAuth";
+import { useRouter } from "next/navigation";
  
 export default function SideBarDashbord() {
+  const id_auth = useIdAuth();
+  const router = useRouter();
   return (
-    <Card className=" h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 lg:shadow-xl lg:shadow-blue-gray-900/5">
-      <div className="mb-2 p-4">
-      <Link href="#" className="border rounded-full border-blue-500">
-              <Avatar src="/img/face-2.jpg" alt="foto do user" />
-      </Link>
+    <Card className="fixed h-[calc(100vh-2rem)] w-full max-w-[15rem] p-4 shadow-xl shadow-blue-gray-900/5">
+      <div className="mb-2 p-4 border border-blue-500 rounded-full w-[50px] h-[50px] flex justify-center items-center hover:bg-blue-500 hover:text-white transition-all">
+        <Link href={`/users/store/${id_auth}/perfil`}>
+        <User size={32}/>
+        </Link>
       </div>
       <List>
+      <Link href={`/users/store/${id_auth}/dashboard`}>
         <ListItem>
-          <Link href="#" className="flex gap-3">
           <ListItemPrefix>
           <House size={32} />
           </ListItemPrefix>
-          Dashboard
-          </Link>
+           Dashboard
         </ListItem>
+        </Link>
+        <Link href={`/users/store/${id_auth}/analisar`}>
         <ListItem>
-          <Link href="#" className="flex gap-3">
           <ListItemPrefix>
           <ChartBar size={32} />
           </ListItemPrefix>
           Analisar
-          </Link>
         </ListItem>
+        </Link>
+        <Link href={`/users/store/${id_auth}/feed`}>
         <ListItem>
-          <Link href="#" className="flex gap-3">
           <ListItemPrefix>
           <Rss size={32} />
           </ListItemPrefix>
           Feed
-          </Link>
         </ListItem>
+        </Link>
+        <Link href={`/users/store/${id_auth}/functionarys`}>
         <ListItem>
-          <Link href="#" className="flex gap-3">
           <ListItemPrefix>
           <Users size={32} />
           </ListItemPrefix>
-          Funcionarios
-          </Link>
+          Funcionários
         </ListItem>
+        </Link>
+        <Link href={`/users/store/${id_auth}/products`}>
         <ListItem>
-          <Link href="#" className="flex gap-3">
           <ListItemPrefix>
           <Cube size={32} />
           </ListItemPrefix>
           Produtos
-          </Link>
         </ListItem>
+        </Link>
+        <Link href={`/users/store/${id_auth}/services`}>
         <ListItem>
-          <Link href="#" className="flex gap-3">
           <ListItemPrefix>
           <HardDrives size={32} />
           </ListItemPrefix>
           Serviços
-          </Link>
         </ListItem>
+        </Link>
         <ListItem onClick={() => {
           localStorage.removeItem("user")
-          window.location.href = "/login"
+          router.push("/login")
         }}>
           <ListItemPrefix>
           <SignOut size={32} />

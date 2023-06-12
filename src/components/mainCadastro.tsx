@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useForm,SubmitHandler } from "react-hook-form";
 import CryptoJS from "crypto-js"
 import z from "zod"
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   email: z.string(),
@@ -21,7 +22,8 @@ type IFormInput = z.infer<typeof schema>;
 
 
 export function MainCadastro() {
- 
+
+  const router = useRouter();
   const { register, handleSubmit,formState: { errors } } = useForm<IFormInput>();
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<Blob | undefined>();
@@ -46,7 +48,7 @@ export function MainCadastro() {
         data: res1.data[0]
       }))
       const id_auth = res1.data[0]?.id_auth
-      window.location.href =  `/users/store/${id_auth}/dashboard`
+      router.push(`/users/store/${id_auth}/dashboard`)
       setLoading(false)
     }else {
       setError(`Erro: tente novamente ou já existe uma conta com este email`)
