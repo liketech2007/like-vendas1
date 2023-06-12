@@ -1,11 +1,10 @@
 import { HeaderDashboard } from "@/components/headerDashbord";
-import { MainService } from "@/components/mainService";
-
-export default function Service() {
+import { MainChief } from "@/components/mainChief";
+export default function Chief() {
   return (
     <>
        <HeaderDashboard />
-       <MainService />
+       <MainChief />
     </>
   )
 }

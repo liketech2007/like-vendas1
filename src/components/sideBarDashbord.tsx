@@ -17,8 +17,8 @@ export default function SideBarDashbord() {
   const router = useRouter();
   return (
     <Card className="fixed h-[calc(100vh-2rem)] w-full max-w-[15rem] p-4 shadow-xl shadow-blue-gray-900/5">
-      <div className="mb-2 p-4 border border-blue-500 rounded-full w-[50px] h-[50px] flex justify-center items-center hover:bg-blue-500 hover:text-white transition-all">
-        <Link href={`/users/store/${id_auth}/perfil`}>
+      <div className="mb-2 p-2 border border-blue-500 rounded-full w-[50px] h-[50px] flex justify-center items-center hover:bg-blue-500 hover:text-white transition-all">
+        <Link href={`/users/store/${id_auth}/store`}>
         <User size={32}/>
         </Link>
       </div>

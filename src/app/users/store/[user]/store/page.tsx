@@ -1,11 +1,11 @@
 import { HeaderDashboard } from "@/components/headerDashbord";
-import { MainService } from "@/components/mainService";
+import { MainStore } from "@/components/mainStore";
 
-export default function Service() {
+export default function Store() {
   return (
     <>
        <HeaderDashboard />
-       <MainService />
+       <MainStore />
     </>
   )
 }
