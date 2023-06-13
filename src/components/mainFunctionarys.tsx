@@ -2,7 +2,7 @@
 import { Button, Card, Input, Typography } from "@material-tailwind/react"
 import SideBarDashbord from "./sideBarDashbord"
 import { useRouter } from "next/navigation"
-import { useIdAuth } from "./useIdAuth"
+import { useIdAuth } from "../hooks/useIdAuth"
 import Link from "next/link"
 
 export function MainFunctionarys() {
@@ -30,7 +30,7 @@ export function MainFunctionarys() {
     <div className="hidden lg:block">
       <SideBarDashbord />
     </div>
-    <div className="lg:min-w-[80%] p-4 flex flex-wrap bgap-6 justify-center itemes-center flex-col">
+    <div className="min-w-full max-w-full lg:max-w-[80%] lg:min-w-[80%] p-4 flex flex-wrap bgap-6 justify-center itemes-center flex-col">
     <Typography variant="h1">
         Funcionários
       </Typography>
@@ -41,7 +41,7 @@ export function MainFunctionarys() {
           <Input type="search" label="Nome do funcionário" />
           <Button>Pesquisar</Button>
         </div>
-        <div className="my-6 min-w-full flex justify-center items-center">
+        <div className="my-6 min-w-[90%] max-w-[90%] flex justify-center items-center">
         <Card className="overflow-scroll min-w-full flex jusify-center">
       <table className="text-center">
         <thead>

@@ -10,7 +10,7 @@ import Image from "next/image"
 import Link from "next/link";
 import SideBarDashbord from "./sideBarDashbord";
 import { User } from "@phosphor-icons/react";
-import { useIdAuth } from "./useIdAuth";
+import { useIdAuth } from "../hooks/useIdAuth";
  
 export  function HeaderDashboard() {
   const [openNav, setOpenNav] = React.useState(false);

@@ -10,7 +10,7 @@ export function MainAnlisar() {
     <div className="hidden lg:block">
       <SideBarDashbord />
     </div>
-    <div className="lg:min-w-[80%] p-4 flex justify-center itemes-center flex-col">
+    <div className="min-w-full max-w-full lg:max-w-[80%] lg:min-w-[80%] p-4 flex justify-center itemes-center flex-col">
     <Typography variant="h1">
         Analisar
       </Typography>

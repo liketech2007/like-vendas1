@@ -5,8 +5,8 @@ import { Bar,Pie,Line } from "react-chartjs-2";
 import { Chart, registerables } from 'chart.js';
 import Table from "./table";
 import { useState } from "react";
-import { useIdAuth } from "./useIdAuth";
 import { useRouter } from "next/navigation";
+import { useIdAuth } from "@/hooks/useIdAuth";
 Chart.register(...registerables);
 
 interface IGrafig {
