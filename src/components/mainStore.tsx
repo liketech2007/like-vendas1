@@ -6,8 +6,10 @@ import { formDate } from "@/utils/formDate";
 import { PencilSimple } from "@phosphor-icons/react";
 import { useState } from "react"
 import { FormSecond } from "./formSecond";
+
+
 export function MainStore() {
-  const user = useUserLocalStorage()
+  const user  = useUserLocalStorage()
     const service_start_date = user !== undefined && formDate(`${user.service_start_date}`)
     const end_service_date = user !== undefined && formDate(`${user.end_service_date}`)
     const [openFormChief,setOpenFormChief] = useState(false)
