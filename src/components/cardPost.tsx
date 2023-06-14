@@ -12,9 +12,10 @@ interface ICardPost {
   product: string;
   price: string;
   link: string;
+  date: string;
 }
 
-export function CardPost({ namefunctionary,product,price,link}: ICardPost) {
+export function CardPost({ namefunctionary,product,price,link,date}: ICardPost) {
   return (
     <Card className="mt-6 w-96">
       <CardBody>
@@ -23,6 +24,9 @@ export function CardPost({ namefunctionary,product,price,link}: ICardPost) {
         </Typography>
         <Typography>
           Vendeu o produto ou serviço {product} no valor de {price}
+        </Typography>
+        <Typography>
+          Data: {date}
         </Typography>
       </CardBody>
       <CardFooter className="pt-0">

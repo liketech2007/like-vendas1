@@ -14,12 +14,7 @@ export function MainFeed() {
         Feed
       </Typography>
       <div className="w-[80%] my-4 flex flex-wrap gap-6">
-        <CardPost link="#" namefunctionary="Oscar" product="arroz" price="250" />
-        <CardPost link="#" namefunctionary="Oscar" product="arroz" price="250" />
-        <CardPost link="#" namefunctionary="Oscar" product="arroz" price="250" />
-        <CardPost link="#" namefunctionary="Oscar" product="arroz" price="250" />
-        <CardPost link="#" namefunctionary="Oscar" product="arroz" price="250" />
-        <CardPost link="#" namefunctionary="Oscar" product="arroz" price="250" />
+        <CardPost link="#" namefunctionary="Oscar" product="arroz" price="250" date="23-03-2023" />
       </div>
     </div>
    </main>

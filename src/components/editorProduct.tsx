@@ -2,7 +2,6 @@
 import { Alert, Button, Input, Spinner, Textarea } from "@material-tailwind/react"
 import { useState } from "react"
 import { useForm,SubmitHandler } from "react-hook-form";
-import CryptoJS from "crypto-js"
 import z from "zod"
 
 const schema = z.object({
@@ -15,7 +14,7 @@ const schema = z.object({
 })
 type IFormInput = z.infer<typeof schema>;
 
-export function FormProduct() {
+export function EditorProduct({ value }:any) {
   const { register, handleSubmit,formState: { errors } } = useForm<IFormInput>();
   const [loading,setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -23,40 +22,39 @@ export function FormProduct() {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true)
     const { name,price,category,quantity,minimum_stock_level,description } = data
-    
-    
+
     setLoading(false)
   }
   return (
     <div>
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <div className="">
-        <Input label="Nome" type="text" {...register("name", { required: true })}/>
+    <div className="">
+        <Input label="Nome" type="text" {...register("name", )} defaultValue={value.name}/>
       </div>
       <div className="">
-        <Input label="Preço" type="number" {...register("price", { required: true })}/>
+        <Input label="Preço" type="number" {...register("price", )} defaultValue={value.price}/>
       </div>
       <div className="">
-        <Input label="Quantidade" type="number" {...register("quantity", { required: true })}/>
+        <Input label="Quantidade" type="number" {...register("quantity", )} defaultValue={value.quantity}/>
       </div>
       <div className="">
-        <Input label="Categoria" type="text" {...register("category", { required: true })}/>
+        <Input label="Categoria" type="text" {...register("category", )} defaultValue={value.category}/>
       </div>
       <div className="">
-        <Input label="Nivel minímo de stock" type="number" {...register("minimum_stock_level", { required: true })}/>
+        <Input label="Nivel minímo de stock" type="number" {...register("minimum_stock_level", )} defaultValue={value.minimum_stock_level}/>
       </div>
       <div className="">
-      <Textarea label="Descrição" {...register("description")}/>
+      <Textarea label="Descrição" {...register("description")} defaultValue={value.description}/>
     </div>
-     
+      
       <Button type="submit" className="flex justify-center items-center">
-        Criar
+        Salvar alterações
         {
           loading && <Spinner />
         }
         </Button>
         {
-            errors.name || errors.price || errors.category || errors.description || errors.minimum_stock_level || errors.quantity || error ? <div className="">
+            error ? <div className="">
               <Alert color="red" variant="gradient">
               <span>{error.length == 0 ? "Preencha correctamento os campos acima para continuar." : error }</span>
             </Alert>

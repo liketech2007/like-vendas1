@@ -1,11 +1,51 @@
 "use client"
-import { Button, Card, Input, Typography } from "@material-tailwind/react"
+import { Button, Card, Input, Radio, Typography } from "@material-tailwind/react"
 import SideBarDashbord from "./sideBarDashbord"
 import { useRouter } from "next/navigation"
 import { useIdAuth } from "../hooks/useIdAuth"
 import Link from "next/link"
+import { Bar,Pie,Line } from "react-chartjs-2";
+import { Chart, registerables } from 'chart.js';
+import { useState } from "react"
+Chart.register(...registerables);
 
 export function MainFunctionarys() {
+  const [typeChart, setTypeChart] = useState<"Bar" | "Pie" | "Line">("Bar");
+  const [typeData, setTypeData] = useState<"day"  | "week" | "fortnight" | "month">("day")
+  
+  const data = [
+    {
+      label: "arroz",
+      value: 10,
+    },{
+      label: "feijão",
+      value: 18,
+    },{
+      label: "fuba",
+      value: 15,
+    }
+  ]
+  const dataChart = {
+    labels: data.map(item => item.label),
+    datasets: [
+      {
+        label: "Vendas dos Funcionários",
+        data: data.map(item => item.value),
+        backgroundColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
+        borderColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
+        borderWidth: 1,
+      },
+    ],
+  };
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: Math.max(...data.map(item => item.value)) + 10,
+      },
+    },
+  };
+
   const type = "day"
   const tableHeard = [`${type === "day"? "dias" : type === "week"? "Semanas" : type === "fortnight"? "Últimos 15 dias" : type === "month"? "Mêses" : null}`,"N.P.V","N.A.P","Total vendido","Custos","Lucro"]
   const tableRows = [{
@@ -40,6 +80,27 @@ export function MainFunctionarys() {
         <div className="min-w-full lg:min-w-[70%] flex justify-center items-center gap-2 my-6">
           <Input type="search" label="Nome do funcionário" />
           <Button>Pesquisar</Button>
+        </div>
+        <div className="min-w-full my-8">
+
+        <div className="min-w-full flex gap-2 flex-wrap justify-end items-center">
+        <div>Tipos de gráficos:</div>
+        <Radio id="html" name="type" label="Barra" onClick={() => setTypeChart("Bar")}/>
+        <Radio id="react" name="type" label="Pizza" onClick={() => setTypeChart("Pie")}/>
+        <Radio id="html" name="type" label="Linha" onClick={() => setTypeChart("Line")}/>
+      </div>
+      
+        <div className="mt-8 max-h-[600px] flex justify-center items-center">
+        {
+            typeChart === "Bar"? (
+                      <Bar data={dataChart} options={options} />
+                    ) : typeChart === "Pie"? (
+                      <Pie data={dataChart} options={options} />
+                    ) : typeChart === "Line"? (
+                      <Line data={dataChart} options={options} />
+                    ) : null
+          }
+    </div>
         </div>
         <div className="my-6 min-w-[90%] max-w-[90%] flex justify-center items-center">
         <Card className="overflow-scroll min-w-full flex jusify-center">

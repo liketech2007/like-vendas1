@@ -4,6 +4,7 @@ import SideBarDashbord from "./sideBarDashbord"
 import { useRouter } from "next/navigation"
 import { useIdAuth } from "../hooks/useIdAuth"
 import Link from "next/link"
+import { PencilSimple } from "@phosphor-icons/react"
 
 export function MainProducts() {
   const type = "day"

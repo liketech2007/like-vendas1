@@ -5,10 +5,15 @@ import Table from "./table";
 import { Bar, Line, Pie } from "react-chartjs-2";
 import { useState } from "react";
 import { Chart, registerables } from 'chart.js';
+import { useIdAuth } from "@/hooks/useIdAuth";
+import { useRouter } from "next/navigation";
 Chart.register(...registerables);
 
 
 export function MainRelatorio({type}:any) {
+  const id_auth = useIdAuth()
+  const router = useRouter()
+
   const [typeChart, setTypeChart] = useState<"Bar" | "Pie" | "Line">("Bar");
   const tableHeard = [`${type === "day"? "dias" : type === "week"? "Semanas" : type === "fortnight"? "Últimos 15 dias" : type === "month"? "Mêses" : null}`,"N.P.V","N.A.P","Total vendido","Custos","Lucro"]
   const tableRows = [{
@@ -133,34 +138,36 @@ export function MainRelatorio({type}:any) {
         </thead>
         <tbody>
           {tableRows.map((item, index) => (
-            <tr key={index} className="even:bg-blue-gray-50/50">
+            <tr key={index} className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white" onClick={() => {
+              router.push(`/users/store/${id_auth}/product/oscar`)
+            }}>
               <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
+                <Typography variant="small"  className="font-normal">
                   {item.date}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
+                <Typography variant="small"  className="font-normal">
                   {item.nvp}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
+                <Typography variant="small"  className="font-normal">
                   {item.nap}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
+                <Typography variant="small"  className="font-normal">
                   {item.totalVendido}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
+                <Typography variant="small"  className="font-normal">
                   {item.custo}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
+                <Typography variant="small"  className="font-normal">
                   {item.lucro}
                 </Typography>
               </td>

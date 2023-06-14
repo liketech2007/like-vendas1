@@ -47,7 +47,7 @@ export function FormSecond({ type }:any) {
         }
         </Button>
         {
-            errors.email || errors.name || errors.password ? <div className="">
+            errors.email || errors.name || errors.password || error ? <div className="">
               <Alert color="red" variant="gradient">
               <span>{error.length == 0 ? "Preencha correctamento os campos acima para continuar." : error }</span>
             </Alert>

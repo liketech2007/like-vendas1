@@ -6,6 +6,7 @@ import { formDate } from "@/utils/formDate";
 import { PencilSimple } from "@phosphor-icons/react";
 import { useState } from "react"
 import { FormSecond } from "./formSecond";
+import { EditorStore } from "./editorStore";
 
 
 export function MainStore() {
@@ -13,6 +14,7 @@ export function MainStore() {
     const service_start_date = user !== undefined && formDate(`${user.service_start_date}`)
     const end_service_date = user !== undefined && formDate(`${user.end_service_date}`)
     const [openFormChief,setOpenFormChief] = useState(false)
+    const [openEditor, setOpenEditor] = useState<boolean>(false)
   
   return (
     <main className="p-4 min-w-full flex justify-between">
@@ -23,9 +25,29 @@ export function MainStore() {
       {
         user !== undefined && (
           <>
-          <div className="min-w-full flex justify-end">
-            <PencilSimple size={32} className="hover:text-blue-500 transition-all"/>
-          </div>
+          <div className="min-w-full flex justify-end mb-6">
+        <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(true)}/>
+    </div>
+    <div>
+    {
+          openEditor && (
+            <>
+                <EditorStore value={{
+                  name: user.name,
+                  number: user.number,
+                  address: user.address,
+                  time_open: user.time_open,
+                  time_close: user.time_close,
+                }} />
+                  <div className="w-full flex justify-center items-center mt-4">
+                  <Button  className="bg-transparent text-black mt-4" onClick={() => setOpenEditor(false)}>
+                      fechar
+                  </Button>
+                  </div>
+            </>
+          )
+        }
+    </div>
           <div className="rounded-full border border-blue-500 max-w-[100px] max-h-[100px]">
               <Avatar src={user.logo} size="xl" alt="user" />
             </div>
