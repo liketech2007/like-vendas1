@@ -267,7 +267,7 @@ export function MainProduct() {
             <Button onClick={handleOpen} className="bg-transparent text-black" >
                 Cancelar
               </Button>
-              <Button variant="gradient" onClick={handleOpen}>
+              <Button variant="gradient" >
                 Adicionar
               </Button>
             </CardFooter>

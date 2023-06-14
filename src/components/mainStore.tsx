@@ -1,5 +1,5 @@
 "use client"
-import { Avatar, Button, Input, Spinner, Typography } from "@material-tailwind/react";
+import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Dialog, Input, Spinner, Textarea, Typography } from "@material-tailwind/react";
 import SideBarDashbord from "./sideBarDashbord";
 import { useUserLocalStorage } from "@/hooks/useUserLocalStorage";
 import { formDate } from "@/utils/formDate";
@@ -15,6 +15,10 @@ export function MainStore() {
     const end_service_date = user !== undefined && formDate(`${user.end_service_date}`)
     const [openFormChief,setOpenFormChief] = useState(false)
     const [openEditor, setOpenEditor] = useState<boolean>(false)
+    const [openFeedback, setOpenFeedback] = useState<boolean>(false)
+    const handleOpen = () => {
+      setOpenFeedback((cur) => !cur);
+    }
   
   return (
     <main className="p-4 min-w-full flex justify-between">
@@ -101,6 +105,45 @@ export function MainStore() {
             </div>
           )
       }
+
+      <div className="fixed bottom-5 right-5">
+        <Button onClick={() => setOpenFeedback(true)}>Enviar Feedback</Button>
+      </div>
+
+      <div>
+      <Dialog
+          size="xs"
+          open={openFeedback}
+          handler={handleOpen}
+          className="bg-transparent shadow-none min-w-full lg:min-w-[24rem] flex justify-center items-center"
+        >
+          <Card className="min-w-[80%] lg:min-w-[24rem] max-w-[80%] lg:max-w-[24rem]">
+            <CardHeader
+              variant="gradient"
+              color="blue"
+              className="mb-4 grid h-28 place-items-center"
+            >
+              <Typography variant="h3" color="white" className="text-center">
+                Enviar Feedback
+              </Typography>
+            </CardHeader>
+            <CardBody className="flex flex-col gap-4">
+              <Textarea label="O que achaste e críticas"  />
+              
+            </CardBody>
+            <CardFooter className="pt-0 flex gap-3 justify-center items-start">
+            <Button onClick={handleOpen} className="bg-transparent text-black" >
+                Cancelar
+              </Button>
+              <Button variant="gradient" onClick={() => {
+                
+              }}>
+                Enviar
+              </Button>
+            </CardFooter>
+          </Card>
+        </Dialog>
+      </div>
     </div>  
     </main>  
   )
