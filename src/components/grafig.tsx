@@ -16,9 +16,10 @@ interface IGrafig {
       value: number
     }[]
     label: string,
+    tableRows: any[]
 }
 
-export function Grafig({ type,data,label}: IGrafig) {
+export function Grafig({ type,data,label,tableRows}: IGrafig) {
   const router = useRouter()
   const produtos = data.map((item:any) => item.label);
   const quantidades = data.map((item:any) => item.value);
@@ -56,19 +57,7 @@ export function Grafig({ type,data,label}: IGrafig) {
       </Typography>
       <div className="my-2">
         <Table tableHeard={["N.P.V","N.A.P","Total vendido","Custos","Lucro"]} 
-          tableRows={[
-            {
-              value: "12",
-            },{
-              value: "1",
-            },{
-              value: "12.798kz",
-            },{
-              value: "1.000kz",
-            },{
-              value: "11.798kz",
-            },
-        ]}
+          tableRows={tableRows}
         />
       </div>
       </div>

@@ -30,7 +30,7 @@ export default function Table({ tableHeard, tableRows}:ITable) {
           {tableRows.map((item, index) => (
               <td key={index} className="px-2 py-4 text-xs">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                  {item.value}
+                  {item}
                 </Typography>
               </td>
           ))}
