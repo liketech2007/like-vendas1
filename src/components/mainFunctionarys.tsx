@@ -100,9 +100,8 @@ export function MainFunctionarys({ data}:any) {
         <tbody>
           {dataTable.map((item:any, index:any) => (
             <tr key={index} className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white" onClick={() => {
-              router.push(`/users/store/${id_auth}/functionary/oscar`)
+              router.push(`/users/store/${id_auth}/functionary/${item.id}`)
             }}>
-              
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
                   {item.name}

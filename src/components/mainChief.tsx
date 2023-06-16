@@ -4,6 +4,7 @@ import SideBarDashbord from "./sideBarDashbord";
 import { useState } from "react";
 import { PencilSimple } from "@phosphor-icons/react";
 import { EditorChiefEFunctionary } from "./editorChiefEFunctionary";
+import CryptoJS from "crypto-js"
 
 
 export function MainChief({ dataChief }:any) {
@@ -38,7 +39,7 @@ export function MainChief({ dataChief }:any) {
         }
     </div>
     <div className="flex gap-2 justify-between flex-wrap">
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-6">
     <Typography variant="h1">
         {dataChief[0].name}
       </Typography>

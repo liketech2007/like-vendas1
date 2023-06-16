@@ -1,7 +1,7 @@
 "use client"
 import { Button, Card, Input, Radio, Typography } from "@material-tailwind/react";
 import SideBarDashbord from "./sideBarDashbord";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "./table";
 import { Bar, Line, Pie } from "react-chartjs-2";
 import { Chart, registerables } from 'chart.js';
@@ -9,17 +9,32 @@ import { useIdAuth } from "@/hooks/useIdAuth";
 import { useRouter } from "next/navigation";
 import { PencilSimple } from "@phosphor-icons/react";
 import { EditorChiefEFunctionary } from "./editorChiefEFunctionary";
+import { filterData } from "@/filteres/filterData";
+import { filterGrafig } from "@/filteres/filtergrafig";
+import { filterGrafigFunctionary } from "@/filteres/filterGrafigFunctionary";
+import { filterDataTable } from "@/filteres/filterDataTable";
 Chart.register(...registerables);
 
-export function MainFunctionary() {
+export function MainFunctionary({ dataFunctionary }:any) {
   const id_auth = useIdAuth()
   const router = useRouter()
-
+  const dateNew = new Date()
   const [typeChart, setTypeChart] = useState<"Bar" | "Pie" | "Line">("Bar");
-  const [typeData, setTypeData] = useState<"day"  | "week" | "fortnight" | "month">("day")
+  const [typeData, setTypeData] = useState<"day"  | "week" | "fortnight" | "month">("week")
   const [isSale, setIsale] = useState<boolean>(true)
   const [openEditor, setOpenEditor] = useState<boolean>(false)
+  const [date,setData] =useState(dateNew)
+  const dataNow = filterData(dataFunctionary,typeData,date)
+  const res = filterGrafigFunctionary(dataNow)
+  const [dataGrafig,setDataGrafig] = useState(res)
+  const tableRowsT = filterDataTable(dataGrafig[0])
+  useEffect(() => {
+    const dataNow = filterData(dataFunctionary,typeData,date)
+    const res = filterGrafigFunctionary(dataNow)
+    setDataGrafig(res)
 
+  },[date])
+  console.log(res,tableRowsT)
 
   const tableHeard = ["N.P.V","N.A.P","Total vendido","Custos","Lucro"]
   const tableRows = [{
@@ -36,24 +51,12 @@ export function MainFunctionary() {
     lucro: "15.393kz"
   }]
 
-  const data = [
-    {
-      label: "arroz",
-      value: 10,
-    },{
-      label: "feijão",
-      value: 18,
-    },{
-      label: "fuba",
-      value: 15,
-    }
-  ]
   const dataChart = {
-    labels: data.map(item => item.label),
+    labels: dataGrafig[0].map((item:any) => item.label),
     datasets: [
       {
         label: `${isSale === true ? "Valor de vendas" : "Valor de Adições"}`,
-        data: data.map(item => item.value),
+        data: dataGrafig[0].map((item:any) => item.value),
         backgroundColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderWidth: 1,
@@ -65,7 +68,7 @@ export function MainFunctionary() {
     scales: {
       y: {
         beginAtZero: true,
-        max: Math.max(...data.map(item => item.value)) + 10,
+        max: Math.max(...dataGrafig[0].map((item:any) => item.value)) + 10,
       },
     },
   };
@@ -95,24 +98,12 @@ export function MainFunctionary() {
     <div className="flex gap-2 justify-between flex-wrap">
     <div className="flex flex-col gap-3">
     <Typography variant="h1">
-        Oscar
+        {dataFunctionary[0].name}
       </Typography>
-      <div><span className="">Email:</span> oscarjkh@gmail.com</div>
+      <div><span className="">Email:</span> {dataFunctionary[0].email}</div>
     </div>
       <Table tableHeard={["N.P.V","N.A.P","Total vendido","Custos","Lucro"]} 
-          tableRows={[
-            {
-              value: "12",
-            },{
-              value: "1",
-            },{
-              value: "12.798kz",
-            },{
-              value: "1.000kz",
-            },{
-              value: "11.798kz",
-            },
-        ]}/>
+          tableRows={[]}/>
     </div>
     <div className="min-w-full flex gap-2 justify-between flex-wrap mt-8">
     <div className="min-w-full flex gap-2 flex-wrap items-center">

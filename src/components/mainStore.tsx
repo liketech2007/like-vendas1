@@ -7,7 +7,6 @@ import { Link, PencilSimple } from "@phosphor-icons/react";
 import { useState } from "react"
 import { FormSecond } from "./formSecond";
 import { EditorStore } from "./editorStore";
-import Table from "./table";
 import { useIdAuth } from "@/hooks/useIdAuth";
 import CryptoJS from "crypto-js"
 import { useRouter } from "next/navigation";
@@ -102,11 +101,44 @@ export function MainStore({ data }: any) {
               <div className="w-full">
               {
                   data.length  > 0 ? (
-                      <div onClick={() => {
-                        router.push(`/users/store/${id_auth}/chief`)
-                      }} className="p-4 hover:bg-blue-500 transition-all">
-                        <Table tableHeard={["nome","email","senha"]} tableRows={[`${data[0].name}`,`${data[0].email}`,`${decryptedPassword}`]} />
-                      </div>
+                    <>
+                     <Typography variant="h1" className="my-4">
+                          Chefe
+                      </Typography>
+                      <Card className="overflow-scroll lg:overflow-none mt-8 max-w-[600px]">
+                       
+                      <table className="text-center">
+                        <thead>
+                          <tr>
+                            {["nome","email","senha"].map((head) => (
+                              <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 px-2 py-4 text-xs">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal leading-none opacity-70"
+                                >
+                                  {head}
+                                </Typography>
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <tr className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white transition-all" onClick={() => {
+                          router.push(`/users/store/${id_auth}/chief`)
+                          }}>
+                          {[`${data[0].name}`,`${data[0].email}`,`${decryptedPassword}`].map((item, index) => (
+                              <td key={index} className="px-2 py-4 text-xs">
+                                <Typography variant="small"  className="font-normal">
+                                  {item}
+                                </Typography>
+                              </td>
+                          ))}
+                          </tr>
+                        </tbody>
+                      </table>
+                    </Card>
+                    </>
                   ) :
                  (
                   <div className="my-8 mx-4 max-w-[250px]">
