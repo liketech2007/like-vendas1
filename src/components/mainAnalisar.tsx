@@ -3,8 +3,7 @@ import { Typography } from "@material-tailwind/react"
 import SideBarDashbord from "./sideBarDashbord"
 import { GrafigComparativo } from "./grafigComparativo"
 
-export function MainAnlisar() {
- 
+export function MainAnlisar({ data }:any) {
   return (
     <main className="p-4 min-w-full flex justify-between">
     <div className="hidden lg:block">
@@ -16,38 +15,10 @@ export function MainAnlisar() {
       </Typography>
       <div className="min-w-full mt-6 p-4">
       <div className="min-w-full mt-6 p-4">
-      <GrafigComparativo type="day" label="Valor de Vendas" data={[
-          {
-            label: "10-06-2023",
-            value: 12,
-          },{
-            label: "11-06-2023",
-            value: 16,
-          }]} />
-          <GrafigComparativo type="week" label="Valor de Vendas" data={[
-          {
-            label: "10-06-2023",
-            value: 12,
-          },{
-            label: "11-06-2023",
-            value: 16,
-          }]} />
-          <GrafigComparativo type="fortnight" label="Valor de Vendas" data={[
-          {
-            label: "10-06-2023",
-            value: 12,
-          },{
-            label: "11-06-2023",
-            value: 16,
-          }]} />
-          <GrafigComparativo type="month" label="Valor de Vendas" data={[
-          {
-            label: "10-06-2023",
-            value: 12,
-          },{
-            label: "11-06-2023",
-            value: 16,
-          }]} />
+          <GrafigComparativo type="day" data={data} />
+          <GrafigComparativo type="week" data={data} />
+          <GrafigComparativo type="fortnight" data={data} />
+          <GrafigComparativo type="month" data={data} />
       </div>
       </div>
     </div>  

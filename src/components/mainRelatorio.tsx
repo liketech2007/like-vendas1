@@ -3,52 +3,45 @@ import { Radio, Typography,Input,Card, Button  } from "@material-tailwind/react"
 import SideBarDashbord from "./sideBarDashbord";
 import Table from "./table";
 import { Bar, Line, Pie } from "react-chartjs-2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Chart, registerables } from 'chart.js';
 import { useIdAuth } from "@/hooks/useIdAuth";
 import { useRouter } from "next/navigation";
+import { filterData } from "@/filteres/filterData";
+import { filterGrafig } from "@/filteres/filtergrafig";
+import { filterDataTable } from "@/filteres/filterDataTable";
+import { filterProduct } from "@/filteres/filterProduct";
 Chart.register(...registerables);
 
 
-export function MainRelatorio({type}:any) {
+export function MainRelatorio({type,data}:any) {
+  const dateNow = new Date();
+  const [date, setDate] = useState(`${dateNow}`)
+  const dataNow = filterData(data,type,date);
+  const [data1,setData1] = useState(dataNow)
+  useEffect(() => {
+    const dataNow = filterData(data,type,date);
+    setData1(dataNow)
+  }, [date])
+
+  const dataGrafig = filterGrafig(data1);
+  const tableRows1 = filterDataTable(data1)
+  const dataTable = filterProduct(dataNow)
+  dataTable.sort((a:any, b:any) => b.nvp - a.nvp);
+
+
   const id_auth = useIdAuth()
   const router = useRouter()
 
   const [typeChart, setTypeChart] = useState<"Bar" | "Pie" | "Line">("Bar");
-  const tableHeard = [`${type === "day"? "dias" : type === "week"? "Semanas" : type === "fortnight"? "Últimos 15 dias" : type === "month"? "Mêses" : null}`,"N.P.V","N.A.P","Total vendido","Custos","Lucro"]
-  const tableRows = [{
-    date:"10-06-2023",
-    nvp: "12",
-    nap: "1",
-    totalVendido: "12.393kz",
-    custo: "1000kz",
-    lucro: "11.393kz"
-  },{
-    date:"11-06-2023",
-    nvp: "16",
-    nap: "6",
-    totalVendido: "16.393kz",
-    custo: "1000kz",
-    lucro: "15.393kz"
-  }]
-  const data = [
-    {
-      label: "arroz",
-      value: 10,
-    },{
-      label: "feijão",
-      value: 18,
-    },{
-      label: "fuba",
-      value: 15,
-    }
-  ]
+  const tableHeard = ["Nome","Preço","Quantidade","N.P.V","N.A.P","Total Vendido","Custos","Lucro"]
+
   const dataChart = {
-    labels: data.map(item => item.label),
+    labels: dataGrafig.map((item:any) => item.label),
     datasets: [
       {
         label: "Valor de Vendas",
-        data: data.map(item => item.value),
+        data: dataGrafig.map((item:any) => item.value),
         backgroundColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderWidth: 1,
@@ -60,7 +53,7 @@ export function MainRelatorio({type}:any) {
     scales: {
       y: {
         beginAtZero: true,
-        max: Math.max(...data.map(item => item.value)) + 10,
+        max: Math.max(...dataGrafig.map((item:any) => item.value)) + 10,
       },
     },
   };
@@ -77,28 +70,15 @@ export function MainRelatorio({type}:any) {
       <div className="min-w-full mt-6 p-4">
         <div className="w-full flex justify-end gap-4">
           <div className="my-4 max-w-[200px]">
-          <Input label="início" type={`${type == "day" || type === "fortnight" ? "date" : type == "week" ? 'week' : type === "month" ? "month" : null}`}/>
-          <div className="mt-4">
-          <Button>Gerar</Button>
-          </div>
+          <Input label="início" type="date" onChange={(e:any) => setDate(e.target.value)}/>
           </div>
         </div>
       <div className="my-2">
+        {
         <Table tableHeard={["N.P.V","N.A.P","Total vendido","Custos","Lucro"]} 
-          tableRows={[
-            {
-              value: "12",
-            },{
-              value: "1",
-            },{
-              value: "12.798kz",
-            },{
-              value: "1.000kz",
-            },{
-              value: "11.798kz",
-            },
-        ]}
+          tableRows={tableRows1}
         />
+        }
       </div>
       </div>
       <div className="min-w-full flex gap-2 flex-wrap justify-end items-center">
@@ -137,13 +117,23 @@ export function MainRelatorio({type}:any) {
           </tr>
         </thead>
         <tbody>
-          {tableRows.map((item, index) => (
+          {dataTable.map((item:any, index:any) => (
             <tr key={index} className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white" onClick={() => {
-              router.push(`/users/store/${id_auth}/product/oscar`)
+              router.push(`/users/store/${id_auth}/product/${item.id}`)
             }}>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.date}
+                  {item.name}
+                </Typography>
+              </td>
+              <td  className="px-2 py-4 text-xs">
+                <Typography variant="small"  className="font-normal">
+                  {item.price}
+                </Typography>
+              </td>
+              <td  className="px-2 py-4 text-xs">
+                <Typography variant="small"  className="font-normal">
+                  {item.quantity}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
@@ -158,12 +148,12 @@ export function MainRelatorio({type}:any) {
               </td>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.totalVendido}
+                  {item.total}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.custo}
+                  {item.custos}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">

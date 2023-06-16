@@ -9,13 +9,13 @@ import {
 import Link from "next/link";
 interface ICardPost {
   namefunctionary: string;
-  product: string;
   price: string;
   link: string;
   date: string;
+  quat: string;
 }
 
-export function CardPost({ namefunctionary,product,price,link,date}: ICardPost) {
+export function CardPost({ namefunctionary,price,link,date,quat}: ICardPost) {
   return (
     <Card className="mt-6 w-96">
       <CardBody>
@@ -23,7 +23,7 @@ export function CardPost({ namefunctionary,product,price,link,date}: ICardPost) 
           {namefunctionary}
         </Typography>
         <Typography>
-          Vendeu o produto ou serviço {product} no valor de {price}
+          Venda de {price} por {quat} vezes
         </Typography>
         <Typography>
           Data: {date}

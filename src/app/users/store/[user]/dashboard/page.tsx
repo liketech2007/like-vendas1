@@ -10,6 +10,7 @@ async function getData(id_auth:string) {
   .select()
   .eq('id_auth', id_auth)
   const id_store = store.data !== null && store.data[0].id
+  
   const products  = await supabase
   .from("product")
   .select()

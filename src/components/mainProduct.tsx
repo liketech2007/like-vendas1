@@ -122,19 +122,7 @@ export function MainProduct() {
       <div><span className="">Descrição:</span> Caixa de paixe</div>
     </div>
       <Table tableHeard={["N.P.V","N.A.P","Total vendido","Custos","Lucro"]} 
-          tableRows={[
-            {
-              value: "12",
-            },{
-              value: "1",
-            },{
-              value: "12.798kz",
-            },{
-              value: "1.000kz",
-            },{
-              value: "11.798kz",
-            },
-        ]}/>
+          tableRows={[]}/>
     </div>
     <div className="min-w-full flex gap-2 justify-between flex-wrap mt-8">
     <div className="min-w-full flex gap-2 flex-wrap items-center">

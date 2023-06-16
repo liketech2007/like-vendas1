@@ -7,13 +7,14 @@ import { filterGrafig } from "@/filteres/filtergrafig";
 import { filterDataTable } from "@/filteres/filterDataTable";
 
 export function MainDashboard({ data }:any) {
-  const dataHoje = filterData(data,"day");
+  const date = new Date()
+  const dataHoje = filterData(data,"day",date);
   const dataGrafigHoje = filterGrafig(dataHoje)
-  const dataWeek = filterData(data,"week");
+  const dataWeek = filterData(data,"week",date);
   const dataGrafigWeek = filterGrafig(dataWeek)
-  const dataFortnight = filterData(data,"fortnight");
+  const dataFortnight = filterData(data,"fortnight",date);
   const dataGrafigFortnight = filterGrafig(dataFortnight)
-  const dataMonth = filterData(data,"month");
+  const dataMonth = filterData(data,"month",date);
   const dataGrafigMonth = filterGrafig(dataMonth)
   const tableRowsHoje = filterDataTable(dataHoje)
   const tableRowsWeek = filterDataTable(dataWeek)

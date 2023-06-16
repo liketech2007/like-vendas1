@@ -3,14 +3,25 @@ import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Dialog, Input, 
 import SideBarDashbord from "./sideBarDashbord";
 import { useUserLocalStorage } from "@/hooks/useUserLocalStorage";
 import { formDate } from "@/utils/formDate";
-import { PencilSimple } from "@phosphor-icons/react";
+import { Link, PencilSimple } from "@phosphor-icons/react";
 import { useState } from "react"
 import { FormSecond } from "./formSecond";
 import { EditorStore } from "./editorStore";
+import Table from "./table";
+import { useIdAuth } from "@/hooks/useIdAuth";
+import CryptoJS from "crypto-js"
+import { useRouter } from "next/navigation";
 
 
-export function MainStore() {
+export function MainStore({ data }: any) {
+  const encryptedPassword = data.length  > 0 && data[0].password; 
+  const encryptionKey = process.env.NEXT_PUBLIC_ENCRIPTO_KEY; 
+  const bytes = CryptoJS.AES.decrypt(encryptedPassword, `${encryptionKey}`);
+  const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
+  
   const user  = useUserLocalStorage()
+  const id_auth = useIdAuth()
+  const router = useRouter()
     const service_start_date = user !== undefined && formDate(`${user.service_start_date}`)
     const end_service_date = user !== undefined && formDate(`${user.end_service_date}`)
     const [openFormChief,setOpenFormChief] = useState(false)
@@ -89,11 +100,22 @@ export function MainStore() {
             </div>
 
               <div className="w-full">
-              <div className="my-8 mx-4 max-w-[250px]">
-                <Button onClick={() => setOpenFormChief(!openFormChief)}>{
-                  !openFormChief? "Adicionar Chief" : "Fechar"
-                }</Button>
-              </div>
+              {
+                  data.length  > 0 ? (
+                      <div onClick={() => {
+                        router.push(`/users/store/${id_auth}/chief`)
+                      }} className="p-4 hover:bg-blue-500 transition-all">
+                        <Table tableHeard={["nome","email","senha"]} tableRows={[`${data[0].name}`,`${data[0].email}`,`${decryptedPassword}`]} />
+                      </div>
+                  ) :
+                 (
+                  <div className="my-8 mx-4 max-w-[250px]">
+                    <Button onClick={() => setOpenFormChief(!openFormChief)}>{
+                      !openFormChief? "Adicionar Chief" : "Fechar"
+                    }</Button>
+                   </div> 
+                  )
+              }
               </div>
           </>
         )

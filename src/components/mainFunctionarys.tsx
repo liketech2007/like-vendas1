@@ -7,30 +7,23 @@ import Link from "next/link"
 import { Bar,Pie,Line } from "react-chartjs-2";
 import { Chart, registerables } from 'chart.js';
 import { useState } from "react"
+import { filterGrafig } from "@/filteres/filtergrafig"
+import { filterDataTableFunctionary } from "@/filteres/filterDataTableFunctionary"
 Chart.register(...registerables);
 
-export function MainFunctionarys() {
+export function MainFunctionarys({ data}:any) {
+  const dataGrafig = filterGrafig(data) 
+  const dataTable = filterDataTableFunctionary(data)
+  dataTable.sort((a:any, b:any) => b.nvp - a.nvp);
   const [typeChart, setTypeChart] = useState<"Bar" | "Pie" | "Line">("Bar");
-  const [typeData, setTypeData] = useState<"day"  | "week" | "fortnight" | "month">("day")
-  
-  const data = [
-    {
-      label: "arroz",
-      value: 10,
-    },{
-      label: "feijão",
-      value: 18,
-    },{
-      label: "fuba",
-      value: 15,
-    }
-  ]
+  const tableHeard = ["nome","email","senha","N.P.V","N.A.P"]
+
   const dataChart = {
-    labels: data.map(item => item.label),
+    labels: dataGrafig.map((item:any) => item.label),
     datasets: [
       {
         label: "Vendas dos Funcionários",
-        data: data.map(item => item.value),
+        data: dataGrafig.map((item:any) => item.value),
         backgroundColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderWidth: 1,
@@ -41,30 +34,14 @@ export function MainFunctionarys() {
     scales: {
       y: {
         beginAtZero: true,
-        max: Math.max(...data.map(item => item.value)) + 10,
+        max: Math.max(...dataGrafig.map((item:any) => item.value)) + 10,
       },
     },
   };
 
-  const type = "day"
-  const tableHeard = [`${type === "day"? "dias" : type === "week"? "Semanas" : type === "fortnight"? "Últimos 15 dias" : type === "month"? "Mêses" : null}`,"N.P.V","N.A.P","Total vendido","Custos","Lucro"]
-  const tableRows = [{
-    date:"10-06-2023",
-    nvp: "12",
-    nap: "1",
-    totalVendido: "12.393kz",
-    custo: "1000kz",
-    lucro: "11.393kz"
-  },{
-    date:"11-06-2023",
-    nvp: "16",
-    nap: "6",
-    totalVendido: "16.393kz",
-    custo: "1000kz",
-    lucro: "15.393kz"
-  }]
   const router = useRouter()
   const id_auth = useIdAuth()
+
   return (
     <main className="p-4 min-w-full flex justify-between">
     <div className="hidden lg:block">
@@ -121,39 +98,34 @@ export function MainFunctionarys() {
           </tr>
         </thead>
         <tbody>
-          {tableRows.map((item, index) => (
+          {dataTable.map((item:any, index:any) => (
             <tr key={index} className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white" onClick={() => {
               router.push(`/users/store/${id_auth}/functionary/oscar`)
             }}>
               
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.date}
+                  {item.name}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.nvp}
+                  {item.email}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.nap}
+                  {item.password}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.totalVendido}
+                  {item.npv}
                 </Typography>
               </td>
               <td  className="px-2 py4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.custo}
-                </Typography>
-              </td>
-              <td  className="px-2 py-4 text-xs">
-                <Typography variant="small"  className="font-normal">
-                  {item.lucro}
+                  {item.nap}
                 </Typography>
               </td>
             </tr>

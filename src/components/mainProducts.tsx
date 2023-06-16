@@ -4,26 +4,14 @@ import SideBarDashbord from "./sideBarDashbord"
 import { useRouter } from "next/navigation"
 import { useIdAuth } from "../hooks/useIdAuth"
 import Link from "next/link"
-import { PencilSimple } from "@phosphor-icons/react"
+import { filterProduct } from "@/filteres/filterProduct"
 
-export function MainProducts() {
+export function MainProducts({ data }:any) {
+  const dataTable = filterProduct(data)
+  dataTable.sort((a:any, b:any) => b.nvp - a.nvp);
   const type = "day"
-  const tableHeard = [`${type === "day"? "dias" : type === "week"? "Semanas" : type === "fortnight"? "Últimos 15 dias" : type === "month"? "Mêses" : null}`,"N.P.V","N.A.P","Total vendido","Custos","Lucro"]
-  const tableRows = [{
-    date:"10-06-2023",
-    nvp: "12",
-    nap: "1",
-    totalVendido: "12.393kz",
-    custo: "1000kz",
-    lucro: "11.393kz"
-  },{
-    date:"11-06-2023",
-    nvp: "16",
-    nap: "6",
-    totalVendido: "16.393kz",
-    custo: "1000kz",
-    lucro: "15.393kz"
-  }]
+  const tableHeard = ["Nome","Preço","Quantidade","N.P.V","N.A.P","Total Vendido","Custos","Lucro"]
+
   const router = useRouter()
   const id_auth = useIdAuth()
   return (
@@ -61,14 +49,23 @@ export function MainProducts() {
           </tr>
         </thead>
         <tbody>
-          {tableRows.map((item, index) => (
+        {dataTable.map((item:any, index:any) => (
             <tr key={index} className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white" onClick={() => {
-              router.push(`/users/store/${id_auth}/functionary/oscar`)
+              router.push(`/users/store/${id_auth}/product/${item.id}`)
             }}>
-              
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.date}
+                  {item.name}
+                </Typography>
+              </td>
+              <td  className="px-2 py-4 text-xs">
+                <Typography variant="small"  className="font-normal">
+                  {item.price}
+                </Typography>
+              </td>
+              <td  className="px-2 py-4 text-xs">
+                <Typography variant="small"  className="font-normal">
+                  {item.quantity}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
@@ -83,12 +80,12 @@ export function MainProducts() {
               </td>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.totalVendido}
+                  {item.total}
                 </Typography>
               </td>
-              <td  className="px-2 py4 text-xs">
+              <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.custo}
+                  {item.custos}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
