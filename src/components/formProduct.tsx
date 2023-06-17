@@ -4,6 +4,10 @@ import { useState } from "react"
 import { useForm,SubmitHandler } from "react-hook-form";
 import CryptoJS from "crypto-js"
 import z from "zod"
+import { actionProductCreate } from "@/app/endpoints/product/create/action";
+import { useUserLocalStorage } from "@/hooks/useUserLocalStorage";
+import { useIdAuth } from "@/hooks/useIdAuth";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   name: z.string(),
@@ -16,6 +20,9 @@ const schema = z.object({
 type IFormInput = z.infer<typeof schema>;
 
 export function FormProduct() {
+  const id_auth = useIdAuth()
+  const router = useRouter()
+  const user = useUserLocalStorage()
   const { register, handleSubmit,formState: { errors } } = useForm<IFormInput>();
   const [loading,setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -23,7 +30,19 @@ export function FormProduct() {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true)
     const { name,price,category,quantity,minimum_stock_level,description } = data
-    
+    const id_store = user !== undefined ? user.id : 0
+    const res = await actionProductCreate({name,price,category,quantity,minimum_stock_level,description,id_store})
+    if(typeof res !== "string") {
+      if(res[0].id) {
+        router.push(`/users/store/${id_auth}/product/${res[0].id}`)
+      } else {
+        setError("Error Tente novamente")
+        setLoading(false)
+      }
+    }else {
+      setError("Error Tente novamente")
+      setLoading(false)
+    }
     
     setLoading(false)
   }
@@ -49,7 +68,7 @@ export function FormProduct() {
       <Textarea label="Descrição" {...register("description")}/>
     </div>
      
-      <Button type="submit" className="flex justify-center items-center">
+      <Button type="submit" className="flex justify-center gap-2 items-center">
         Criar
         {
           loading && <Spinner />

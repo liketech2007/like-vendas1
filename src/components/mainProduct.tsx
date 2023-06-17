@@ -1,5 +1,5 @@
 "use client"
-import { Button, Card, IconButton, Input, Radio, SpeedDial, SpeedDialAction, SpeedDialContent, SpeedDialHandler, Typography,Tooltip } from "@material-tailwind/react";
+import { Button, Card, IconButton, Input, Radio, SpeedDial, SpeedDialAction, SpeedDialContent, SpeedDialHandler, Typography,Tooltip, Spinner, Alert } from "@material-tailwind/react";
 import SideBarDashbord from "./sideBarDashbord";
 import Table from "./table";
 import { useEffect, useState } from "react";
@@ -19,11 +19,28 @@ import { filterDataTable } from "@/filteres/filterDataTable";
 import { filterDataSalesAddition } from "@/filteres/filterDataSalesAddition";
 import { useIdAuth } from "@/hooks/useIdAuth";
 import { useRouter } from "next/navigation";
+import z from "zod"
+import { useForm,SubmitHandler } from "react-hook-form";
+import { useFunctionary } from "@/hooks/useFunctionary";
+import { useUserLocalStorage } from "@/hooks/useUserLocalStorage";
+import { actionSaleCreate } from "@/app/endpoints/sale_product/create/action";
+import { actionAdditionCreate } from "@/app/endpoints/addition_product/create/action";
 Chart.register(...registerables);
 
-export function MainProduct({ dataProduct }:any) {
+const schema = z.object({
+  price: z.number(),
+  quantity: z.number(),
+})
+type IFormInput = z.infer<typeof schema>;
+
+
+export function MainProduct({ dataProduct,id_product }:any) {
+  const { register, handleSubmit,formState: { errors } } = useForm<IFormInput>();
+  const [loading,setLoading] = useState(false)
+
   const id_auth = useIdAuth()
   const router = useRouter()
+  const user = useUserLocalStorage()
   const dateNew = new Date()
   const [date,setDate] =useState(`${dateNew}`)
   const [typeChart, setTypeChart] = useState<"Bar" | "Pie" | "Line">("Bar");
@@ -36,12 +53,64 @@ export function MainProduct({ dataProduct }:any) {
   const res = filterGrafigFunctionary(dataNow,isSale)
   const [dataGrafig,setDataGrafig] = useState(res)
   const tableRowsT = filterDataTable(dataNow)
+  const [error, setError] = useState("")
+  const functLocal = useFunctionary()
   useEffect(() => {
     const dataNow = filterData(dataProduct,typeData,date)
     const res = filterGrafigFunctionary(dataNow,isSale)
     setDataGrafig(res)
 
   },[date])
+
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+     setLoading(true)
+     const id_store = user !== undefined ? user.id : 0
+     const {price,quantity} = data
+     if(openDiolag === "sale") {
+      const dataAuxilar = {
+        id_functionary: functLocal === undefined ? 0 : functLocal.id_functionary,
+        id_store: functLocal === undefined ? Number(id_store) : functLocal.id_functionary, 
+        id_product: Number(id_product),
+        quantity_sold: price,
+        price_sold: quantity,
+       } 
+      const res = await actionSaleCreate(dataAuxilar)
+
+      if(typeof res !== "string") {
+        if(res[0].id) {
+          window.location.reload()
+        } else {
+          setError("Error Tente novamente")
+          setLoading(false)
+        }
+      }else {
+        setError("Error Tente novamente")
+        setLoading(false)
+      }
+     }else {
+      const dataAuxilar = {
+        id_functionary: functLocal === undefined ? 0 : functLocal.id_functionary,
+        id_store: functLocal === undefined ? Number(id_store) : functLocal.id_functionary, 
+        id_product: Number(id_product),
+        quantity_added: quantity,
+        purchase_price: price,
+       } 
+      const res = await actionAdditionCreate(dataAuxilar)
+
+      if(typeof res !== "string") {
+        if(res[0].id) {
+          window.location.reload()
+        } else {
+          setError("Error Tente novamente")
+          setLoading(false)
+        }
+      }else {
+        setError("Error Tente novamente")
+        setLoading(false)
+      }
+     }
+     setLoading(false)
+  }
 
   const dataTable = filterDataSalesAddition(dataNow,isSale)
   dataTable.sort((a:any, b:any) => b.date - a.date);
@@ -189,9 +258,7 @@ export function MainProduct({ dataProduct }:any) {
         </thead>
         <tbody>
         {dataTable.map((item:any,index:any) => (
-            <tr  key={index} className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white" onClick={() => {
-              router.push(`/users/store/${id_auth}/product/${item.id_product}`);
-            }}>
+            <tr  key={index} className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white">
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small" className="font-normal">
                   {item.date}
@@ -239,19 +306,33 @@ export function MainProduct({ dataProduct }:any) {
                 Adicionar Venda
               </Typography>
             </CardHeader>
-            <CardBody className="flex flex-col gap-4">
-              <Input label="Preço" />
-              <Input label="Quantidade"  />
+            <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-4 p-4">
+              <Input label="Preço" {...register("price", { required: true })}/>
+              <Input label="Quantidade" {...register("quantity", { required: true })} />
               
-            </CardBody>
-            <CardFooter className="pt-0 flex gap-3 justify-center items-start">
+            </div>
+            <div className="pt-0 flex gap-3 justify-center items-start p-4">
             <Button onClick={handleOpen} className="bg-transparent text-black" >
                 Cancelar
               </Button>
-              <Button variant="gradient" >
+              <Button type="submit" variant="gradient" className="flex gap-3" >
                 Adicionar
+                {
+                  loading && <Spinner />
+                }
               </Button>
-            </CardFooter>
+            </div>
+            <div className="my-3 p-4">
+                    {
+                  errors.quantity || errors.price ||  error ? <div className="">
+                    <Alert color="red" variant="gradient">
+                    <span>{error.length == 0 ? "Preencha correctamento os campos acima para continuar." : error }</span>
+                  </Alert>
+                  </div> : null
+                }
+              </div>
+            </form>
           </Card>
         </Dialog>
         ) : openDiolag === "addition" ? (
@@ -271,18 +352,32 @@ export function MainProduct({ dataProduct }:any) {
                 Adicionar Produto
               </Typography>
             </CardHeader>
-            <CardBody className="flex flex-col gap-4">
-              <Input label="Valor de aquisição"  />
-              <Input label="Quantidade"  />
-            </CardBody>
-            <CardFooter className="pt-0 flex gap-3 justify-center items-start">
-            <Button onClick={handleOpen} className="bg-transparent text-black" >
+            <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-4 p-4">
+              <Input label="Valor de aquisição"  {...register("price", { required: true })} />
+              <Input label="Quantidade" {...register("quantity", { required: true })}  />
+            </div>
+            <div className="pt-0 flex gap-3 justify-center items-start p-4">
+            <Button  onClick={handleOpen} className="bg-transparent text-black" >
                 Cancelar
               </Button>
-              <Button variant="gradient">
+              <Button type="submit" variant="gradient" className="flex gap-3">
                 Adicionar
+                {
+                  loading && <Spinner />
+                }
               </Button>
-            </CardFooter>
+            </div>
+            <div className="my-3 p-4">
+                    {
+                  errors.quantity || errors.price ||  error ? <div className="">
+                    <Alert color="red" variant="gradient">
+                    <span>{error.length == 0 ? "Preencha correctamento os campos acima para continuar." : error }</span>
+                  </Alert>
+                  </div> : null
+                }
+              </div>
+            </form>
           </Card>
         </Dialog>
         ) : null

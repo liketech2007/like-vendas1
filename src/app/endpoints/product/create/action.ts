@@ -1,8 +1,9 @@
 import { IProduct } from "@/types/product";
 import { supabase } from "@/utils/supabase";
 
-export async function actionChiefCreate({name,price,id_store,description,quantity,category,minimum_stock_level}:IProduct) {
-  const { data,statusText } = await supabase
+export async function actionProductCreate({name,price,id_store,description,quantity,category,minimum_stock_level}:IProduct) {
+  
+  const { data,statusText,error } = await supabase
   .from("product")
   .insert({
     name,
@@ -14,5 +15,6 @@ export async function actionChiefCreate({name,price,id_store,description,quantit
     minimum_stock_level
   })
   .select()
+  console.log(data,statusText,error)
   return data == null ? statusText : data
 }

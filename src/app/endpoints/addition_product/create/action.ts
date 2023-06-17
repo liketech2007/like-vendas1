@@ -1,8 +1,8 @@
 import { IAdditionProduct } from "@/types/addition_product";
 import { supabase } from "@/utils/supabase";
 
-export async function actionChiefCreate({id_store,id_product,id_functionary,quantity_added,purchase_price}:IAdditionProduct) {
-  const { data,statusText } = await supabase
+export async function actionAdditionCreate({id_store,id_product,id_functionary,quantity_added,purchase_price}:IAdditionProduct) {
+  const { data,statusText,error } = await supabase
   .from("addition_product")
   .insert({
     id_store,

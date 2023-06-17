@@ -1,7 +1,7 @@
 export interface IChief {
   email: string;
   password: string;
-  id_store: number;
+  id_store?: number;
   name: string;
-  foto: string;
+  id_auth?: string;
 }

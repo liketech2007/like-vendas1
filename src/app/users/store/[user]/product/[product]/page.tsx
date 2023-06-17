@@ -55,7 +55,7 @@ export default async function Product({params}:any) {
   return (
     <>
        <HeaderDashboard />
-       <MainProduct dataProduct={data} />
+       <MainProduct dataProduct={data} id_product={params.product} />
     </>
   )
 }

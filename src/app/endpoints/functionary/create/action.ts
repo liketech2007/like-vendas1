@@ -1,7 +1,7 @@
 import { IFunctionary } from "@/types/functionary";
 import { supabase } from "@/utils/supabase";
 
-export async function actionChiefCreate({name,email,password,foto,id_store}:IFunctionary) {
+export async function actionFunctionaryCreate({name,email,password,id_auth,id_store}:IFunctionary) {
   const { data,statusText } = await supabase
   .from("functionary")
   .insert({
@@ -9,7 +9,8 @@ export async function actionChiefCreate({name,email,password,foto,id_store}:IFun
     name,
     id_store,
     password,
-    foto
+    auth: true,
+    id_auth
   })
   .select()
   return data == null ? statusText : data
