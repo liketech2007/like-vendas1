@@ -39,8 +39,8 @@ async function getData(id_auth:string) {
   
     const functionaryObject = {
       ...functionary,
-      sales: sale || [{ quantity_sold: 0, price_sold: 0 }],
-      addition: addition || [{ quantity_added: 0, purchase_price: 0 }]
+      sales: sale || [{ quantity_sold: 0, price_sold: 0, created_at: "" }],
+      addition: addition || [{ quantity_added: 0, purchase_price: 0, created_at: "" }]
     };
 
   

@@ -2,7 +2,7 @@
 import { Button, Card, IconButton, Input, Radio, SpeedDial, SpeedDialAction, SpeedDialContent, SpeedDialHandler, Typography,Tooltip } from "@material-tailwind/react";
 import SideBarDashbord from "./sideBarDashbord";
 import Table from "./table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bar, Line, Pie } from "react-chartjs-2";
 import { Chart, registerables } from 'chart.js';
 import { FolderSimplePlus, PencilSimple, ShoppingCartSimple } from "@phosphor-icons/react";
@@ -12,57 +12,54 @@ import {
   CardBody,
   CardFooter,
 } from "@material-tailwind/react";
-import { EditorChiefEFunctionary } from "./editorChiefEFunctionary";
 import { EditorProduct } from "./editorProduct";
+import { filterData } from "@/filteres/filterData";
+import { filterGrafigFunctionary } from "@/filteres/filterGrafigFunctionary";
+import { filterDataTable } from "@/filteres/filterDataTable";
+import { filterDataSalesAddition } from "@/filteres/filterDataSalesAddition";
+import { useIdAuth } from "@/hooks/useIdAuth";
+import { useRouter } from "next/navigation";
 Chart.register(...registerables);
 
-export function MainProduct() {
-  
+export function MainProduct({ dataProduct }:any) {
+  const id_auth = useIdAuth()
+  const router = useRouter()
+  const dateNew = new Date()
+  const [date,setDate] =useState(`${dateNew}`)
   const [typeChart, setTypeChart] = useState<"Bar" | "Pie" | "Line">("Bar");
   const [typeData, setTypeData] = useState<"day"  | "week" | "fortnight" | "month">("day")
   const [openDiolag, setOpenDiolag] = useState<"sale" | "addition"  | false>(false)
   const [open, setOpen] = useState(false)
   const [isSale, setIsale] = useState<boolean>(true)
   const [openEditor, setOpenEditor] = useState<boolean>(false)
+  const dataNow = filterData(dataProduct,typeData,date)
+  const res = filterGrafigFunctionary(dataNow,isSale)
+  const [dataGrafig,setDataGrafig] = useState(res)
+  const tableRowsT = filterDataTable(dataNow)
+  useEffect(() => {
+    const dataNow = filterData(dataProduct,typeData,date)
+    const res = filterGrafigFunctionary(dataNow,isSale)
+    setDataGrafig(res)
+
+  },[date])
+
+  const dataTable = filterDataSalesAddition(dataNow,isSale)
+  dataTable.sort((a:any, b:any) => b.date - a.date);
+    const tableHeardSales = ["data","preço","quantidade","total vendido"]
+    const tableHeardAdiition = ["data","valor de aquisição","quantidade", "total de custo"]
+    const tableHeard = isSale === true ? tableHeardSales : tableHeardAdiition
 
   const handleOpen = () => {
     setOpen((cur) => !cur);
     setOpenDiolag(false);
   }
-
-  const tableHeard = ["N.P.V","N.A.P","Total vendido","Custos","Lucro"]
-  const tableRows = [{
-    nvp: "12",
-    nap: "1",
-    totalVendido: "12.393kz",
-    custo: "1000kz",
-    lucro: "11.393kz"
-  },{
-    nvp: "16",
-    nap: "6",
-    totalVendido: "16.393kz",
-    custo: "1000kz",
-    lucro: "15.393kz"
-  }]
-
-  const data = [
-    {
-      label: "arroz",
-      value: 10,
-    },{
-      label: "feijão",
-      value: 18,
-    },{
-      label: "fuba",
-      value: 15,
-    }
-  ]
+ 
   const dataChart = {
-    labels: data.map(item => item.label),
+    labels: dataGrafig.map((item:any) => item.label),
     datasets: [
       {
         label: `${isSale === true ? "Valor de vendas" : "Valor de Adições"}`,
-        data: data.map(item => item.value),
+        data: dataGrafig.map((item:any) => item.value),
         backgroundColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderWidth: 1,
@@ -74,7 +71,7 @@ export function MainProduct() {
     scales: {
       y: {
         beginAtZero: true,
-        max: Math.max(...data.map(item => item.value)) + 10,
+        max: Math.max(...dataGrafig.map((item:any) => item.value)) + 10,
       },
     },
   };
@@ -93,12 +90,12 @@ export function MainProduct() {
             <>
                 <EditorProduct value={
                 {
-                  name: "oscar",
-                  price: 1000,
-                  quantity: 10,
-                  category: "oscar",
-                  minimum_stock_level: 1,
-                  description: "jskjh"
+                  name: dataProduct[0].name,
+                  price: dataProduct[0].price,
+                  quantity: dataProduct[0].quantity,
+                  category: dataProduct[0].category,
+                  minimum_stock_level: dataProduct[0].minimum_stock_level,
+                  description: dataProduct[0].description
                 }
                 } />
                   <div className="w-full flex justify-center items-center mt-4">
@@ -113,16 +110,16 @@ export function MainProduct() {
     <div className="flex gap-2 justify-between flex-wrap">
     <div className="flex flex-col gap-3">
     <Typography variant="h1">
-        Product 1
+        {dataProduct[0].name}
       </Typography>
-      <div><span className="">Preço:</span> 1.200</div>
-      <div><span className="">Quantidade:</span> 12</div>
-      <div><span className="">Valor minímo de stock:</span> 1</div>
-      <div><span className="">Categoria:</span> peixes</div>
-      <div><span className="">Descrição:</span> Caixa de paixe</div>
+      <div><span className="">Preço:</span> {dataProduct[0].price}</div>
+      <div><span className="">Quantidade:</span> {dataProduct[0].quantity}</div>
+      <div><span className="">Valor minímo de stock:</span> {dataProduct[0].minimum_stock_level}</div>
+      <div><span className="">Categoria:</span> {dataProduct[0].category}</div>
+      <div><span className="">Descrição:</span> {dataProduct[0].description}</div>
     </div>
       <Table tableHeard={["N.P.V","N.A.P","Total vendido","Custos","Lucro"]} 
-          tableRows={[]}/>
+          tableRows={tableRowsT}/>
     </div>
     <div className="min-w-full flex gap-2 justify-between flex-wrap mt-8">
     <div className="min-w-full flex gap-2 flex-wrap items-center">
@@ -146,8 +143,7 @@ export function MainProduct() {
     </div>
     <div className="max-w-[200px] flex flex-wrap gap-2">
         <div>Data:</div>
-        <Input label="início" type={`${typeData == "day" || typeData === "fortnight" ? "date" : typeData == "week" ? 'week' : typeData === "month" ? "month" : null}`}/>
-        <Button>Gerar</Button>
+        <Input label="início" type="date" onChange={(e) => setDate(e.target.value)}/>
       </div>  
     </div>
 
@@ -192,35 +188,32 @@ export function MainProduct() {
           </tr>
         </thead>
         <tbody>
-          {tableRows.map((item, index) => (
-            <tr  key={index} className="even:bg-blue-gray-50/50">
+        {dataTable.map((item:any,index:any) => (
+            <tr  key={index} className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white" onClick={() => {
+              router.push(`/users/store/${id_auth}/product/${item.id_product}`);
+            }}>
               <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
-                  {item.nvp}
+                <Typography variant="small" className="font-normal">
+                  {item.date}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
-                  {item.nap}
+                <Typography variant="small"  className="font-normal">
+                  {item.price}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
-                  {item.totalVendido}
+                <Typography variant="small"  className="font-normal">
+                  {item.quat}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
-                  {item.custo}
-                </Typography>
-              </td>
-              <td  className="px-2 py-4 text-xs">
-                <Typography variant="small" color="blue-gray" className="font-normal">
-                  {item.lucro}
+                <Typography variant="small"  className="font-normal">
+                  {item.total }
                 </Typography>
               </td>
             </tr>
-          ))}
+            ))}
         </tbody>
       </table>
     </Card>

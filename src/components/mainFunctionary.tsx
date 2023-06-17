@@ -13,6 +13,7 @@ import { filterData } from "@/filteres/filterData";
 import { filterGrafig } from "@/filteres/filtergrafig";
 import { filterGrafigFunctionary } from "@/filteres/filterGrafigFunctionary";
 import { filterDataTable } from "@/filteres/filterDataTable";
+import { filterDataSalesAddition } from "@/filteres/filterDataSalesAddition";
 Chart.register(...registerables);
 
 export function MainFunctionary({ dataFunctionary }:any) {
@@ -20,43 +21,35 @@ export function MainFunctionary({ dataFunctionary }:any) {
   const router = useRouter()
   const dateNew = new Date()
   const [typeChart, setTypeChart] = useState<"Bar" | "Pie" | "Line">("Bar");
-  const [typeData, setTypeData] = useState<"day"  | "week" | "fortnight" | "month">("week")
+  const [typeData, setTypeData] = useState<"day"  | "week" | "fortnight" | "month">("day")
   const [isSale, setIsale] = useState<boolean>(true)
   const [openEditor, setOpenEditor] = useState<boolean>(false)
-  const [date,setData] =useState(dateNew)
+  const [date,setDate] =useState(`${dateNew}`)
   const dataNow = filterData(dataFunctionary,typeData,date)
-  const res = filterGrafigFunctionary(dataNow)
+  const res = filterGrafigFunctionary(dataNow,isSale)
   const [dataGrafig,setDataGrafig] = useState(res)
-  const tableRowsT = filterDataTable(dataGrafig[0])
+  const tableRowsT = filterDataTable(dataNow)
   useEffect(() => {
     const dataNow = filterData(dataFunctionary,typeData,date)
-    const res = filterGrafigFunctionary(dataNow)
+    const res = filterGrafigFunctionary(dataNow,isSale)
     setDataGrafig(res)
 
   },[date])
-  console.log(res,tableRowsT)
 
-  const tableHeard = ["N.P.V","N.A.P","Total vendido","Custos","Lucro"]
-  const tableRows = [{
-    nvp: "12",
-    nap: "1",
-    totalVendido: "12.393kz",
-    custo: "1000kz",
-    lucro: "11.393kz"
-  },{
-    nvp: "16",
-    nap: "6",
-    totalVendido: "16.393kz",
-    custo: "1000kz",
-    lucro: "15.393kz"
-  }]
+
+ const dataTable = filterDataSalesAddition(dataNow,isSale)
+ dataTable.sort((a:any, b:any) => b.date - a.date);
+  const tableHeardSales = ["data","preço","quantidade","total vendido"]
+  const tableHeardAdiition = ["data","valor de aquisição","quantidade", "total de custo"]
+  const tableHeard = isSale === true ? tableHeardSales : tableHeardAdiition
+
 
   const dataChart = {
-    labels: dataGrafig[0].map((item:any) => item.label),
+    labels: dataGrafig.map((item:any) => item.label),
     datasets: [
       {
         label: `${isSale === true ? "Valor de vendas" : "Valor de Adições"}`,
-        data: dataGrafig[0].map((item:any) => item.value),
+        data: dataGrafig.map((item:any) => item.value),
         backgroundColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderColor: ['rgba(33, 150, 243, 0.1)', 'rgba(33, 150, 243, 0.5)','rgba(33, 150, 243, 0.9)'],
         borderWidth: 1,
@@ -68,7 +61,7 @@ export function MainFunctionary({ dataFunctionary }:any) {
     scales: {
       y: {
         beginAtZero: true,
-        max: Math.max(...dataGrafig[0].map((item:any) => item.value)) + 10,
+        max: Math.max(...dataGrafig.map((item:any) => item.value)) + 10,
       },
     },
   };
@@ -85,7 +78,7 @@ export function MainFunctionary({ dataFunctionary }:any) {
     {
           openEditor && (
             <>
-                <EditorChiefEFunctionary type="chief" value="Oscar" />
+                <EditorChiefEFunctionary type="chief" value={dataFunctionary[0].name} />
                   <div className="w-full flex justify-center items-center mt-4">
                   <Button  className="bg-transparent text-black mt-4" onClick={() => setOpenEditor(false)}>
                       fechar
@@ -103,7 +96,7 @@ export function MainFunctionary({ dataFunctionary }:any) {
       <div><span className="">Email:</span> {dataFunctionary[0].email}</div>
     </div>
       <Table tableHeard={["N.P.V","N.A.P","Total vendido","Custos","Lucro"]} 
-          tableRows={[]}/>
+          tableRows={tableRowsT}/>
     </div>
     <div className="min-w-full flex gap-2 justify-between flex-wrap mt-8">
     <div className="min-w-full flex gap-2 flex-wrap items-center">
@@ -127,8 +120,7 @@ export function MainFunctionary({ dataFunctionary }:any) {
     </div>
     <div className="max-w-[200px] flex flex-wrap gap-2">
         <div>Data:</div>
-        <Input label="início" type={`${typeData == "day" || typeData === "fortnight" ? "date" : typeData == "week" ? 'week' : typeData === "month" ? "month" : null}`}/>
-        <Button>Gerar</Button>
+        <Input label="início" type="date" onChange={(e) => setDate(`${e.target.value}`)}/>
       </div>  
     </div>
 
@@ -173,37 +165,32 @@ export function MainFunctionary({ dataFunctionary }:any) {
           </tr>
         </thead>
         <tbody>
-          {tableRows.map((item, index) => (
+          {dataTable.map((item:any,index:any) => (
             <tr  key={index} className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white" onClick={() => {
-              router.push(`/users/store/${id_auth}/product/oscar`)
+              router.push(`/users/store/${id_auth}/product/${item.id_product}`);
             }}>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small" className="font-normal">
-                  {item.nvp}
+                  {item.date}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.nap}
+                  {item.price}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.totalVendido}
+                  {item.quat}
                 </Typography>
               </td>
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
-                  {item.custo}
-                </Typography>
-              </td>
-              <td  className="px-2 py-4 text-xs">
-                <Typography variant="small"  className="font-normal">
-                  {item.lucro}
+                  {item.total }
                 </Typography>
               </td>
             </tr>
-          ))}
+            ))}
         </tbody>
       </table>
     </Card>

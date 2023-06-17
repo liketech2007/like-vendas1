@@ -7,6 +7,7 @@ export function filterDataTableFunctionary(data:any) {
         const bytes = CryptoJS.AES.decrypt(encryptedPassword, `${encryptionKey}`);
         const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
         return {
+            id: item.id,
             name: item.name,
             email: item.email,
             password: decryptedPassword,
