@@ -8,7 +8,6 @@ export async function signup(email: string, password: string,type:string) {
   .eq('email', email)
  if(data !== null) {
   const passwordUser = decrypto(`${data[0].password}`)
-  console.log(data,type,password)
   if(data?.length == 0) {
     return "Nenhum usuário com estás informações"
   }else if(data[0].auth === null) {

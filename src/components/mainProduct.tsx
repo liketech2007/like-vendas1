@@ -9,8 +9,6 @@ import { FolderSimplePlus, PencilSimple, ShoppingCartSimple } from "@phosphor-ic
 import {
   Dialog,
   CardHeader,
-  CardBody,
-  CardFooter,
 } from "@material-tailwind/react";
 import { EditorProduct } from "./editorProduct";
 import { filterData } from "@/filteres/filterData";
@@ -44,7 +42,7 @@ export function MainProduct({ dataProduct,id_product }:any) {
   const dateNew = new Date()
   const [date,setDate] =useState(`${dateNew}`)
   const [typeChart, setTypeChart] = useState<"Bar" | "Pie" | "Line">("Bar");
-  const [typeData, setTypeData] = useState<"day"  | "week" | "fortnight" | "month">("day")
+  const [typeData, setTypeData] = useState<"day" | "week" | "fortnight" | "month">("day")
   const [openDiolag, setOpenDiolag] = useState<"sale" | "addition"  | false>(false)
   const [open, setOpen] = useState(false)
   const [isSale, setIsale] = useState<boolean>(true)
@@ -66,48 +64,56 @@ export function MainProduct({ dataProduct,id_product }:any) {
      setLoading(true)
      const id_store = user !== undefined ? user.id : 0
      const {price,quantity} = data
-     if(openDiolag === "sale") {
-      const dataAuxilar = {
-        id_functionary: functLocal === undefined ? 0 : functLocal.id_functionary,
-        id_store: functLocal === undefined ? Number(id_store) : functLocal.id_functionary, 
-        id_product: Number(id_product),
-        quantity_sold: price,
-        price_sold: quantity,
-       } 
-      const res = await actionSaleCreate(dataAuxilar)
-
-      if(typeof res !== "string") {
-        if(res[0].id) {
-          window.location.reload()
-        } else {
+     const time_open = `${user?.time_open}`.slice(0, 2);
+     const time_close = `${user?.time_close}`.slice(0, 2);
+     if(dateNew.getHours() < Number(time_open) || dateNew.getHours() > Number(time_close)) {
+      console.log("oi")
+      setError("A loja está aberta")
+      setLoading(false)
+     } else {
+      if(openDiolag === "sale") {
+        const dataAuxilar = {
+          id_functionary: functLocal === undefined ? 0 : functLocal.id_functionary,
+          id_store: functLocal === undefined ? Number(id_store) : functLocal.id_store, 
+          id_product: Number(id_product),
+          quantity_sold: price,
+          price_sold: quantity,
+         } 
+        const res = await actionSaleCreate(dataAuxilar)
+  
+        if(typeof res !== "string") {
+          if(res[0].id) {
+            window.location.reload()
+          } else {
+            setError("Error Tente novamente")
+            setLoading(false)
+          }
+        }else {
           setError("Error Tente novamente")
           setLoading(false)
         }
-      }else {
-        setError("Error Tente novamente")
-        setLoading(false)
-      }
-     }else {
-      const dataAuxilar = {
-        id_functionary: functLocal === undefined ? 0 : functLocal.id_functionary,
-        id_store: functLocal === undefined ? Number(id_store) : functLocal.id_functionary, 
-        id_product: Number(id_product),
-        quantity_added: quantity,
-        purchase_price: price,
-       } 
-      const res = await actionAdditionCreate(dataAuxilar)
-
-      if(typeof res !== "string") {
-        if(res[0].id) {
-          window.location.reload()
-        } else {
+       }else {
+        const dataAuxilar = {
+          id_functionary: functLocal === undefined ? 0 : functLocal.id_functionary,
+          id_store: functLocal === undefined ? Number(id_store) : functLocal.id_store, 
+          id_product: Number(id_product),
+          quantity_added: quantity,
+          purchase_price: price,
+         } 
+        const res = await actionAdditionCreate(dataAuxilar)
+  
+        if(typeof res !== "string") {
+          if(res[0].id) {
+            window.location.reload()
+          } else {
+            setError("Error Tente novamente")
+            setLoading(false)
+          }
+        }else {
           setError("Error Tente novamente")
           setLoading(false)
         }
-      }else {
-        setError("Error Tente novamente")
-        setLoading(false)
-      }
+       }
      }
      setLoading(false)
   }

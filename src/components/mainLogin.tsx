@@ -8,6 +8,7 @@ import z from "zod";
 import { signup } from "@/app/auth/signup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { actionStoreRead } from "@/app/endpoints/store/read/action";
 
 const schema = z.object({
   email: z.string(),
@@ -44,9 +45,22 @@ export function MainLogin() {
         setLoading(false)
       }else {
         setError(false)
-        localStorage.setItem("user",JSON.stringify({
+        const storeRes = await actionStoreRead(res.id_store)
+        console.log(storeRes,res)
+        type !== "store" ? localStorage.setItem("user",JSON.stringify({
+          exp: `${date}`,
+          data: {
+            ...res,
+            service_start_date: typeof storeRes === 'object' && storeRes !== null ? storeRes[0].service_start_date : "",
+            end_service_date: typeof storeRes === 'object' && storeRes !== null ? storeRes[0].end_service_date : "",
+          }
+        })) : localStorage.setItem("user",JSON.stringify({
           exp: `${date}`,
           data: res
+        }))
+        type !== "store" && localStorage.setItem("functionary", JSON.stringify({
+          id_store: res.id_store,
+          id_functionary: res.id
         }))
         router.push(`/users/${typeSign}/${res.id_auth}/dashboard`)
       }

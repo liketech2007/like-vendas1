@@ -8,6 +8,7 @@ import { actionProductCreate } from "@/app/endpoints/product/create/action";
 import { useUserLocalStorage } from "@/hooks/useUserLocalStorage";
 import { useIdAuth } from "@/hooks/useIdAuth";
 import { useRouter } from "next/navigation";
+import { useFunctionary } from "@/hooks/useFunctionary";
 
 const schema = z.object({
   name: z.string(),
@@ -20,6 +21,7 @@ const schema = z.object({
 type IFormInput = z.infer<typeof schema>;
 
 export function FormProduct() {
+  const functLocal = useFunctionary()
   const id_auth = useIdAuth()
   const router = useRouter()
   const user = useUserLocalStorage()
@@ -30,7 +32,8 @@ export function FormProduct() {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true)
     const { name,price,category,quantity,minimum_stock_level,description } = data
-    const id_store = user !== undefined ? user.id : 0
+    const id = user !== undefined ? user.id : 0
+    const id_store = functLocal === undefined ? Number(id) : functLocal.id_store
     const res = await actionProductCreate({name,price,category,quantity,minimum_stock_level,description,id_store})
     if(typeof res !== "string") {
       if(res[0].id) {

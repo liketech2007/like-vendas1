@@ -76,7 +76,7 @@ export  function HeaderDashboard() {
             </IconButton>
           </div>
         </div>
-        <MobileNav open={openNav}>
+        <MobileNav className={`${openNav === false && "hidden"}`} open={openNav}>
                 <SideBarDashbord />
         </MobileNav>
       </Navbar>

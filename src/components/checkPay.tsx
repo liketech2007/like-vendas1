@@ -6,6 +6,7 @@ import {
   DialogBody,
   DialogFooter,
   Typography,
+  Card,
 } from "@material-tailwind/react";
 import { Bell } from "@phosphor-icons/react";
 import Link from "next/link";
@@ -41,7 +42,8 @@ export const CheckPay = () => {
       typeDio === "exp"  ? (
         <Dialog open={true} handler={() => {
 
-        }}>
+        }} className="bg-transparent shadow-none min-w-full lg:min-w-[24rem] flex justify-center items-center">
+        <Card className="min-w-[80%] lg:min-w-[24rem] max-w-[80%] lg:max-w-[24rem]">
         <DialogHeader>
           <Typography variant="h5" color="blue-gray">
             Pagamento
@@ -70,6 +72,7 @@ export const CheckPay = () => {
           </Button>
           </Link>
         </DialogFooter>
+        </Card>
       </Dialog>
       ) : null }
     </>

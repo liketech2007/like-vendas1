@@ -2,53 +2,95 @@ export function filterData(data:any,type:string,dateNow:any) {
 const date = new Date(dateNow)
 
   if(type === 'day') {
-    const today = date.toISOString().split('T')[0];
-    const productsToday = data.filter((product:any) => {
-        return (
-          product.sales.some((sale:any) => sale.created_at.includes(today)) ||
-          product.addition.some((addition:any) => addition.created_at.includes(today))
-        );
-      });
-      return productsToday;
+    const today = new Date().toISOString().split('T')[0];
+    const productsToday = data.map((product: any) => {
+    const todaySales = product.sales.filter((sale: any) => sale.created_at.split('T')[0] === today);
+    const todayAdditions = product.addition.filter((addition: any) => addition.created_at.split('T')[0] === today);
+    const { sales, addition, ...rest } = data
+    return {
+      sales: todaySales,
+      addition: todayAdditions,
+      rest,
+    }
+  });
+  return productsToday;
   }
   
   
-  if(type === "week") {
+  if (type === "week") {
     const oneWeekAgo = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
     const oneWeekAgo1 = date.toISOString().split('T')[0];
-  const productsWeek = data.filter((product:any) => {
-    return (
-      product.sales.some((sale:any) => new Date(sale.created_at).toISOString().split('T')[0] >= oneWeekAgo && new Date(sale.created_at).toISOString().split('T')[0] <= oneWeekAgo1) ||
-      product.addition.some((addition:any) =>new Date(addition.created_at).toISOString().split('T')[0] >= oneWeekAgo && new Date(addition.created_at).toISOString().split('T')[0] <= oneWeekAgo1)
-     );
-  });
-
-  return productsWeek;
+  
+    const productsWeek = data.filter((product:any) => {
+      const todaySales = product.sales.filter((sale:any) => {
+        const saleDate = new Date(sale.created_at).toISOString().split('T')[0];
+        return saleDate >= oneWeekAgo && saleDate <= oneWeekAgo1;
+      });
+  
+      const todayAdditions = product.addition.filter((addition:any) => {
+        const additionDate = new Date(addition.created_at).toISOString().split('T')[0];
+        return additionDate >= oneWeekAgo && additionDate <= oneWeekAgo1;
+      });
+      const { sales, addition, ...rest } = data
+      return {
+        sales: todaySales,
+        addition: todayAdditions,
+        rest,
+      }
+    });
+  
+    return productsWeek;
   }
-
-  if(type === "fortnight") {
+  
+  if (type === "fortnight") {
     const fifteenDaysAgo = new Date(date.getTime() - 15 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
     const fifteenDaysAgo1 = date.toISOString().split('T')[0];
-
-  const productsFitteenDays = data.filter((product:any) => {
-    return (
-      product.sales.some((sale:any) => new Date(sale.created_at).toISOString().split('T')[0] >= fifteenDaysAgo && new Date(sale.created_at).toISOString().split('T')[0] <= fifteenDaysAgo1) ||
-      product.addition.some((addition:any) =>new Date(addition.created_at).toISOString().split('T')[0] >= fifteenDaysAgo && new Date(addition.created_at).toISOString().split('T')[0] <= fifteenDaysAgo1)
-     );
-  });
-
-  return productsFitteenDays;
+  
+    const productsFifteenDays = data.filter((product:any) => {
+      const todaySales = product.sales.filter((sale:any) => {
+        const saleDate = new Date(sale.created_at).toISOString().split('T')[0];
+        return saleDate >= fifteenDaysAgo && saleDate <= fifteenDaysAgo1;
+      });
+  
+      const todayAdditions = product.addition.filter((addition:any) => {
+        const additionDate = new Date(addition.created_at).toISOString().split('T')[0];
+        return additionDate >= fifteenDaysAgo && additionDate <= fifteenDaysAgo1;
+      });
+  
+      const { sales, addition, ...rest } = data
+      return {
+        sales: todaySales,
+        addition: todayAdditions,
+        rest,
+      }
+    });
+  
+    return productsFifteenDays;
   }
-  if(type === "month"){
+  
+  if (type === "month") {
     const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).toISOString().split('T')[0];
     const startOfMonth1 = date.toISOString().split('T')[0];
-
-  const productsMonth = data.filter((product:any) => {
-    return (
-      product.sales.some((sale:any) => new Date(sale.created_at).toISOString().split('T')[0] >= startOfMonth && new Date(sale.created_at).toISOString().split('T')[0] <= startOfMonth1) ||
-      product.addition.some((addition:any) =>new Date(addition.created_at).toISOString().split('T')[0] >= startOfMonth && new Date(addition.created_at).toISOString().split('T')[0] <= startOfMonth1)
-     );
-  });
-  return productsMonth
+  
+    const productsMonth = data.filter((product:any) => {
+      const todaySales = product.sales.filter((sale:any) => {
+        const saleDate = new Date(sale.created_at).toISOString().split('T')[0];
+        return saleDate >= startOfMonth && saleDate <= startOfMonth1;
+      });
+  
+      const todayAdditions = product.addition.filter((addition:any) => {
+        const additionDate = new Date(addition.created_at).toISOString().split('T')[0];
+        return additionDate >= startOfMonth && additionDate <= startOfMonth1;
+      });
+      const { sales, addition, ...rest } = data
+      return {
+        sales: todaySales,
+        addition: todayAdditions,
+        rest,
+      }
+    });
+  
+    return productsMonth;
   }
+  
 }

@@ -67,6 +67,7 @@ export default function SideBarDashbord() {
         </Link>
         <ListItem onClick={() => {
           localStorage.removeItem("user")
+          localStorage.removeItem("functionary")
           router.push("/login")
         }}>
           <ListItemPrefix>

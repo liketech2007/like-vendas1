@@ -1,5 +1,5 @@
 "use client"
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Dialog, Input, Spinner, Textarea, Typography } from "@material-tailwind/react";
+import { Alert, Avatar, Button, Card, CardBody, CardFooter, CardHeader, Dialog, Input, Spinner, Textarea, Typography } from "@material-tailwind/react";
 import SideBarDashbord from "./sideBarDashbord";
 import { useUserLocalStorage } from "@/hooks/useUserLocalStorage";
 import { formDate } from "@/utils/formDate";
@@ -10,9 +10,21 @@ import { EditorStore } from "./editorStore";
 import { useIdAuth } from "@/hooks/useIdAuth";
 import CryptoJS from "crypto-js"
 import { useRouter } from "next/navigation";
+import z from "zod"
+import { useForm,SubmitHandler } from "react-hook-form";
+import { actionFeedbackCreate } from "@/app/endpoints/feedbacks/create/action";
+import { useFunctionary } from "@/hooks/useFunctionary";
+
+const schema = z.object({
+  content: z.string(),
+})
+type IFormInput = z.infer<typeof schema>;
 
 
 export function MainStore({ data }: any) {
+  const [error, setError] = useState("")
+  const { register, handleSubmit,formState: { errors } } = useForm<IFormInput>();
+  const [loading,setLoading] = useState(false)
   const encryptedPassword = data.length  > 0 && data[0].password; 
   const encryptionKey = process.env.NEXT_PUBLIC_ENCRIPTO_KEY; 
   const bytes = CryptoJS.AES.decrypt(encryptedPassword, `${encryptionKey}`);
@@ -26,9 +38,23 @@ export function MainStore({ data }: any) {
     const [openFormChief,setOpenFormChief] = useState(false)
     const [openEditor, setOpenEditor] = useState<boolean>(false)
     const [openFeedback, setOpenFeedback] = useState<boolean>(false)
+    const functLocal = useFunctionary()
     const handleOpen = () => {
       setOpenFeedback((cur) => !cur);
     }
+
+    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+      setLoading(true)
+      const id_store = user !== undefined ? user.id : 0
+      const res = await actionFeedbackCreate({ content: data.content, id_store: functLocal === undefined ? Number(id_store) : functLocal.id_store,})
+      if(typeof res !== "string") {
+          setOpenFeedback(false)
+        } else {
+          setError("Error Tente novamente")
+          setLoading(false)
+        }
+      setLoading(false)
+  }  
   
   return (
     <main className="p-4 min-w-full flex justify-between">
@@ -181,20 +207,32 @@ export function MainStore({ data }: any) {
                 Enviar Feedback
               </Typography>
             </CardHeader>
-            <CardBody className="flex flex-col gap-4">
-              <Textarea label="O que achaste e críticas"  />
+            <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-4 p-4">
+              <Textarea label="O que achou da plataforma e críticas" {...register("content", { required: true })}/>
               
-            </CardBody>
-            <CardFooter className="pt-0 flex gap-3 justify-center items-start">
+            </div>
+            <div className="pt-0 flex gap-3 justify-center items-start p-4">
             <Button onClick={handleOpen} className="bg-transparent text-black" >
                 Cancelar
               </Button>
-              <Button variant="gradient" onClick={() => {
-                
-              }}>
-                Enviar
+              <Button type="submit" variant="gradient" className="flex gap-3" >
+                Adicionar
+                {
+                  loading && <Spinner />
+                }
               </Button>
-            </CardFooter>
+            </div>
+            <div className="my-3 p-4">
+                    {
+                  errors.content  ||  error ? <div className="">
+                    <Alert color="red" variant="gradient">
+                    <span>{error.length == 0 ? "Preencha correctamento os campos acima para continuar." : error }</span>
+                  </Alert>
+                  </div> : null
+                }
+              </div>
+            </form>
           </Card>
         </Dialog>
       </div>
