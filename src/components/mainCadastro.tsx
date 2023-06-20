@@ -47,6 +47,7 @@ export function MainCadastro() {
         exp,
         data: res1.data[0]
       }))
+      localStorage.setItem("type","store")
       const id_auth = res1.data[0]?.id_auth
       router.push(`/users/store/${id_auth}/dashboard`)
       setLoading(false)

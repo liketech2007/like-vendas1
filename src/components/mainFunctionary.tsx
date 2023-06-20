@@ -14,6 +14,7 @@ import { filterGrafig } from "@/filteres/filtergrafig";
 import { filterGrafigFunctionary } from "@/filteres/filterGrafigFunctionary";
 import { filterDataTable } from "@/filteres/filterDataTable";
 import { filterDataSalesAddition } from "@/filteres/filterDataSalesAddition";
+import { Delete } from "./delete";
 Chart.register(...registerables);
 
 export function MainFunctionary({ dataFunctionary }:any) {
@@ -71,14 +72,15 @@ export function MainFunctionary({ dataFunctionary }:any) {
       <SideBarDashbord />
     </div>
     <div className="min-w-full max-w-full lg:max-w-[80%] lg:min-w-[80%] p-4 flex justify-center itemes-center flex-col">
-    <div className="min-w-full flex justify-end mb-6">
+    <div className="min-w-full flex justify-between mb-6">
+        <Delete id={dataFunctionary[0].id} type="functionary"/>
         <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(true)}/>
     </div>
     <div>
     {
           openEditor && (
             <>
-                <EditorChiefEFunctionary type="chief" value={dataFunctionary[0].name} />
+                <EditorChiefEFunctionary type="functionary" id={dataFunctionary[0].id} value={dataFunctionary[0].name} />
                   <div className="w-full flex justify-center items-center mt-4">
                   <Button  className="bg-transparent text-black mt-4" onClick={() => setOpenEditor(false)}>
                       fechar

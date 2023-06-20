@@ -1,6 +1,6 @@
 import { supabase } from "@/utils/supabase";
 
-export async function actionStoreDelete(id:number) {
+export async function actionSaleDelete(id:number) {
   const { data,statusText } = await supabase
   .from('sale_product')
   .delete()

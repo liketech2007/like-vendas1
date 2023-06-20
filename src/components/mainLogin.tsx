@@ -62,7 +62,8 @@ export function MainLogin() {
           id_store: res.id_store,
           id_functionary: res.id
         }))
-        router.push(`/users/${typeSign}/${res.id_auth}/dashboard`)
+        localStorage.setItem("type",typeSign)
+       typeSign === "store" ? router.push(`/users/store/${res.id_auth}/dashboard`) : typeSign === "functionary" ? router.push(`/users/store/${res.id_auth}/functionary/${res.id}`) : router.push(`/users/store/${res.id_auth}/chief`)
       }
     }
     setLoading(false);

@@ -23,6 +23,8 @@ import { useFunctionary } from "@/hooks/useFunctionary";
 import { useUserLocalStorage } from "@/hooks/useUserLocalStorage";
 import { actionSaleCreate } from "@/app/endpoints/sale_product/create/action";
 import { actionAdditionCreate } from "@/app/endpoints/addition_product/create/action";
+import { Delete } from "./delete";
+import { updateQuatProduct } from "@/app/endpoints/product/updateQuat/action";
 Chart.register(...registerables);
 
 const schema = z.object({
@@ -53,6 +55,7 @@ export function MainProduct({ dataProduct,id_product }:any) {
   const tableRowsT = filterDataTable(dataNow)
   const [error, setError] = useState("")
   const functLocal = useFunctionary()
+  const [quat,setQuat] = useState(0)
   useEffect(() => {
     const dataNow = filterData(dataProduct,typeData,date)
     const res = filterGrafigFunctionary(dataNow,isSale)
@@ -64,34 +67,44 @@ export function MainProduct({ dataProduct,id_product }:any) {
      setLoading(true)
      const id_store = user !== undefined ? user.id : 0
      const {price,quantity} = data
+     setQuat(quantity)
      const time_open = `${user?.time_open}`.slice(0, 2);
      const time_close = `${user?.time_close}`.slice(0, 2);
+    
      if(dateNew.getHours() < Number(time_open) || dateNew.getHours() > Number(time_close)) {
       console.log("oi")
       setError("A loja está aberta")
       setLoading(false)
      } else {
       if(openDiolag === "sale") {
-        const dataAuxilar = {
-          id_functionary: functLocal === undefined ? 0 : functLocal.id_functionary,
-          id_store: functLocal === undefined ? Number(id_store) : functLocal.id_store, 
-          id_product: Number(id_product),
-          quantity_sold: price,
-          price_sold: quantity,
-         } 
-        const res = await actionSaleCreate(dataAuxilar)
-  
-        if(typeof res !== "string") {
-          if(res[0].id) {
-            window.location.reload()
-          } else {
+        if(dataProduct[0].quantity <= quantity) {
+          setError("Não tem quantidade suficiente!")
+          setLoading(false)
+        } else {
+          const dataAuxilar = {
+            id_functionary: functLocal === undefined ? 0 : functLocal.id_functionary,
+            id_store: functLocal === undefined ? Number(id_store) : functLocal.id_store, 
+            id_product: Number(id_product),
+            quantity_sold: quantity,
+            price_sold: price,
+           } 
+          const res = await actionSaleCreate(dataAuxilar)
+    
+          if(typeof res !== "string") {
+            if(res[0].id) {
+              const quat = dataProduct[0].quantity - quantity
+              await updateQuatProduct(dataProduct[0].id,quat)
+              window.location.reload()
+            } else {
+              setError("Error Tente novamente")
+              setLoading(false)
+            }
+          }else {
             setError("Error Tente novamente")
             setLoading(false)
           }
-        }else {
-          setError("Error Tente novamente")
-          setLoading(false)
         }
+        
        }else {
         const dataAuxilar = {
           id_functionary: functLocal === undefined ? 0 : functLocal.id_functionary,
@@ -104,6 +117,8 @@ export function MainProduct({ dataProduct,id_product }:any) {
   
         if(typeof res !== "string") {
           if(res[0].id) {
+            const quat = dataProduct[0].quantity + quantity
+              await updateQuatProduct(dataProduct[0].id,quat)
             window.location.reload()
           } else {
             setError("Error Tente novamente")
@@ -120,8 +135,8 @@ export function MainProduct({ dataProduct,id_product }:any) {
 
   const dataTable = filterDataSalesAddition(dataNow,isSale)
   dataTable.sort((a:any, b:any) => b.date - a.date);
-    const tableHeardSales = ["data","preço","quantidade","total vendido"]
-    const tableHeardAdiition = ["data","valor de aquisição","quantidade", "total de custo"]
+    const tableHeardSales = ["data","preço","quantidade","total vendido","delete"]
+    const tableHeardAdiition = ["data","valor de aquisição","quantidade", "total de custo","detele"]
     const tableHeard = isSale === true ? tableHeardSales : tableHeardAdiition
 
   const handleOpen = () => {
@@ -156,7 +171,8 @@ export function MainProduct({ dataProduct,id_product }:any) {
       <SideBarDashbord />
     </div>
     <div className="min-w-full max-w-full lg:max-w-[80%] lg:min-w-[80%] p-4 flex justify-center itemes-center flex-col">
-    <div className="min-w-full flex justify-end mb-6">
+    <div className="min-w-full flex justify-between mb-6">
+        <Delete id={dataProduct[0].id} type="product"/>
         <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(true)}/>
     </div>
     <div>
@@ -165,6 +181,7 @@ export function MainProduct({ dataProduct,id_product }:any) {
             <>
                 <EditorProduct value={
                 {
+                  id: dataProduct[0].id,
                   name: dataProduct[0].name,
                   price: dataProduct[0].price,
                   quantity: dataProduct[0].quantity,
@@ -188,7 +205,7 @@ export function MainProduct({ dataProduct,id_product }:any) {
         {dataProduct[0].name}
       </Typography>
       <div><span className="">Preço:</span> {dataProduct[0].price}</div>
-      <div><span className="">Quantidade:</span> {dataProduct[0].quantity}</div>
+      <div><span className="">Quantidade:</span> <span className={`${dataProduct[0].quantity <= dataProduct[0].minimum_stock_level && "text-red-500"}`}>{dataProduct[0].quantity}</span></div>
       <div><span className="">Valor minímo de stock:</span> {dataProduct[0].minimum_stock_level}</div>
       <div><span className="">Categoria:</span> {dataProduct[0].category}</div>
       <div><span className="">Descrição:</span> {dataProduct[0].description}</div>
@@ -283,6 +300,11 @@ export function MainProduct({ dataProduct,id_product }:any) {
               <td  className="px-2 py-4 text-xs">
                 <Typography variant="small"  className="font-normal">
                   {item.total }
+                </Typography>
+              </td>
+              <td  className="px-2 py-4 text-xs">
+                <Typography variant="small"  className="font-normal">
+                  <Delete id={item.id} type={isSale === true ? "sale" : "addition"} quat={isSale === true ? dataProduct[0].quantity + quat : dataProduct[0].quantity - quat}/>
                 </Typography>
               </td>
             </tr>

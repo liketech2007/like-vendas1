@@ -2,7 +2,7 @@ export function filterData(data:any,type:string,dateNow:any) {
 const date = new Date(dateNow)
 
   if(type === 'day') {
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date(date).toISOString().split('T')[0];
     const productsToday = data.map((product: any) => {
     const todaySales = product.sales.filter((sale: any) => sale.created_at.split('T')[0] === today);
     const todayAdditions = product.addition.filter((addition: any) => addition.created_at.split('T')[0] === today);

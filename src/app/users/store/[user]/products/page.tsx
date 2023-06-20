@@ -2,7 +2,7 @@ import { HeaderDashboard } from "@/components/headerDashbord";
 import { MainProducts } from "@/components/mainProducts";
 import { supabase } from "@/utils/supabase";
 
-export const revalidate = 60
+export const revalidate = 1
 
 async function getData(id_auth:string) {
   const store = await supabase

@@ -28,7 +28,7 @@ export function MainChief({ dataChief }:any) {
     {
           openEditor && (
             <>
-                <EditorChiefEFunctionary type="chief" value={dataChief[0].name} />
+                <EditorChiefEFunctionary type="chief" id={dataChief[0].id} value={dataChief[0].name} />
                   <div className="w-full flex justify-center items-center mt-4">
                   <Button  className="bg-transparent text-black mt-4" onClick={() => setOpenEditor(false)}>
                       fechar

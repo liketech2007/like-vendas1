@@ -1,4 +1,5 @@
 "use client"
+import { actionProductUpdate } from "@/app/endpoints/product/update/action";
 import { Alert, Button, Input, Spinner, Textarea } from "@material-tailwind/react"
 import { useState } from "react"
 import { useForm,SubmitHandler } from "react-hook-form";
@@ -22,12 +23,13 @@ export function EditorProduct({ value }:any) {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true)
     const { name,price,category,quantity,minimum_stock_level,description } = data
-
+    await actionProductUpdate({ name,price,category,quantity,minimum_stock_level,description,id:value.id })
+    window.location.reload()
     setLoading(false)
   }
   return (
     <div>
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 my-4">
     <div className="">
         <Input label="Nome" type="text" {...register("name", )} defaultValue={value.name}/>
       </div>

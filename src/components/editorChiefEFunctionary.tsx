@@ -1,4 +1,6 @@
 "use client"
+import { actionChiefUpdate } from "@/app/endpoints/chief/update/action";
+import { actionFunctionaryUpdate } from "@/app/endpoints/functionary/update/action";
 import { Alert, Button, Input, Spinner } from "@material-tailwind/react"
 import { useState } from "react"
 import { useForm,SubmitHandler } from "react-hook-form";
@@ -9,7 +11,7 @@ const schema = z.object({
 })
 type IFormInput = z.infer<typeof schema>;
 
-export function EditorChiefEFunctionary({ type,value }:any) {
+export function EditorChiefEFunctionary({ type,value,id }:any) {
   const { register, handleSubmit,formState: { errors } } = useForm<IFormInput>();
   const [loading,setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -19,15 +21,17 @@ export function EditorChiefEFunctionary({ type,value }:any) {
     const { name } = data
 
     if(type == "chief") {
-
+      await actionChiefUpdate({id,value:name})
+      window.location.reload()
     }else {
-
+      await actionFunctionaryUpdate({id,value:name})
+      window.location.reload()
     }
     setLoading(false)
   }
   return (
     <div>
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 my-4">
       <div className="">
         <Input label="Nome" type="text" defaultValue={value} {...register("name", )}/>
       </div>

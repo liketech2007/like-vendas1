@@ -55,6 +55,8 @@ export function MainStore({ data }: any) {
         }
       setLoading(false)
   }  
+
+  console.log(user)
   
   return (
     <main className="p-4 min-w-full flex justify-between">
@@ -72,7 +74,7 @@ export function MainStore({ data }: any) {
     {
           openEditor && (
             <>
-                <EditorStore value={{
+                <EditorStore id={user.id} nameFile={user.logo}  value={{
                   name: user.name,
                   number: user.number,
                   address: user.address,

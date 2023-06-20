@@ -1,12 +1,14 @@
 "use client"
+
+import { actionStoreUpdate } from "@/app/endpoints/store/update/action";
 import { Alert, Button, Input, Spinner } from "@material-tailwind/react"
 import { useState } from "react"
 import { useForm,SubmitHandler } from "react-hook-form";
 import z from "zod"
 
 const schema = z.object({
-  nameStore: z.string(),
-  tel: z.string(),
+  name: z.string(),
+  number: z.string(),
   file: z.string(),
   address: z.string(),
   time_open: z.string(),
@@ -14,29 +16,26 @@ const schema = z.object({
 })
 type IFormInput = z.infer<typeof schema>;
 
-export function EditorStore({ type,value }:any) {
+export function EditorStore({ type,value,id,nameFile }:any) {
   const { register, handleSubmit,formState: { errors } } = useForm<IFormInput>();
   const [loading,setLoading] = useState(false)
   const [error, setError] = useState("")
   const [file, setFile] = useState<Blob | undefined>();
-  const [fileName,setFileName] = useState("")
+  const [fileName,setFileName] = useState(`${nameFile}`)
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true)
-    const { nameStore:name,tel:number,address,time_close,time_open} = data
+    const { name,number,address,time_close,time_open} = data
 
-    if(type == "chief") {
-
-    }else {
-
-    }
+    await actionStoreUpdate({id,number,name,address,time_close,time_open,logo:fileName})
+    window.location.reload()
     setLoading(false)
   }
   return (
     <div>
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-            <Input label="Nome da Loja" className="w-full" {...register("nameStore", )} defaultValue={value.name}/>
-            <Input  label="Telefone" type="tel" className="w-full" {...register("tel", )}defaultValue={value.number} />
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 my-4">
+            <Input label="Nome da Loja" className="w-full" {...register("name", )} defaultValue={value.name}/>
+            <Input  label="Telefone" type="tel" className="w-full" {...register("number", )} defaultValue={value.number} />
             <Input  label="logotipo" type="file" className="w-full" {...register("file", )} onChange={(e:any) => {
               const file = e.target.files[0]
               setFileName(file.name)

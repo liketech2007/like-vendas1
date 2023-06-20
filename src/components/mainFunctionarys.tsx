@@ -9,6 +9,7 @@ import { Chart, registerables } from 'chart.js';
 import { useState } from "react"
 import { filterGrafig } from "@/filteres/filtergrafig"
 import { filterDataTableFunctionary } from "@/filteres/filterDataTableFunctionary"
+import { search } from "@/filteres/search"
 Chart.register(...registerables);
 
 export function MainFunctionarys({ data}:any) {
@@ -41,6 +42,7 @@ export function MainFunctionarys({ data}:any) {
 
   const router = useRouter()
   const id_auth = useIdAuth()
+  const [dataSearch, setDataSearch] = useState<any>()
 
   return (
     <main className="p-4 min-w-full flex justify-between">
@@ -55,7 +57,10 @@ export function MainFunctionarys({ data}:any) {
 
       <div className="flex flex-col items-center justify-center">
         <div className="min-w-full lg:min-w-[70%] flex justify-center items-center gap-2 my-6">
-          <Input type="search" label="Nome do funcionário" />
+          <Input type="search" label="Nome do funcionário" onChange={(e) => {
+            const res = search(dataTable,`${e.target.value}`)
+            setDataSearch(res)
+          }} />
           <Button>Pesquisar</Button>
         </div>
         <div className="min-w-full my-8">
@@ -66,7 +71,62 @@ export function MainFunctionarys({ data}:any) {
         <Radio id="react" name="type" label="Pizza" onClick={() => setTypeChart("Pie")}/>
         <Radio id="html" name="type" label="Linha" onClick={() => setTypeChart("Line")}/>
       </div>
-      
+      {
+          dataSearch && (
+      <Card className="overflow-scroll min-w-full flex jusify-center my-8">
+      <table className="text-center">
+        <thead>
+          <tr>
+            {tableHeard.map((head) => (
+              <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 px-2 py-4 text-xs">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal leading-none opacity-70"
+                >
+                  {head}
+                </Typography>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {dataSearch.map((item:any, index:any) => (
+            <tr key={index} className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white" onClick={() => {
+              router.push(`/users/store/${id_auth}/functionary/${item.item.id}`)
+            }}>
+              <td  className="px-2 py-4 text-xs">
+                <Typography variant="small"  className="font-normal">
+                  {item.item.name}
+                </Typography>
+              </td>
+              <td  className="px-2 py-4 text-xs">
+                <Typography variant="small"  className="font-normal">
+                  {item.item.email}
+                </Typography>
+              </td>
+              <td  className="px-2 py-4 text-xs">
+                <Typography variant="small"  className="font-normal">
+                  {item.item.password}
+                </Typography>
+              </td>
+              <td  className="px-2 py-4 text-xs">
+                <Typography variant="small"  className="font-normal">
+                  {item.item.npv}
+                </Typography>
+              </td>
+              <td  className="px-2 py4 text-xs">
+                <Typography variant="small"  className="font-normal">
+                  {item.item.nap}
+                </Typography>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Card>
+          )
+        }
         <div className="mt-8 max-h-[600px] flex justify-center items-center">
         {
             typeChart === "Bar"? (
@@ -79,6 +139,7 @@ export function MainFunctionarys({ data}:any) {
           }
     </div>
         </div>
+        
         <div className="my-6 min-w-[90%] max-w-[90%] flex justify-center items-center">
         <Card className="overflow-scroll min-w-full flex jusify-center">
       <table className="text-center">

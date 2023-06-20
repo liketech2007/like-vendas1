@@ -2,10 +2,18 @@ import { IUpdateUser } from "@/types/updateUser";
 import { supabase } from "@/utils/supabase";
 
 
-export async function actionStoreUpdate({ id,camp,value}:IUpdateUser) {
-  const { data,statusText } = await supabase
+export async function actionStoreUpdate({ id,number,name,logo,address,time_open,time_close}:any) {
+  console.log({ id,number,name,logo,address,time_open,time_close})
+  const { data,statusText,error } = await supabase
   .from('store')
-  .update({ [camp]: value })
+  .update({ 
+    name,
+    number,
+    logo,
+    address,
+    time_open,
+    time_close
+   })
   .eq('id', id)
 
   return data == null ? statusText : data

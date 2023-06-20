@@ -11,9 +11,14 @@ import Link from "next/link";
 import SideBarDashbord from "./sideBarDashbord";
 import { User } from "@phosphor-icons/react";
 import { useIdAuth } from "../hooks/useIdAuth";
+import { useType } from "@/hooks/useType";
+import { useFunctionary } from "@/hooks/useFunctionary";
  
 export  function HeaderDashboard() {
   const [openNav, setOpenNav] = React.useState(false);
+  const type = useType()
+  const functionary = useFunctionary()
+  const id_functionary = functionary?.id_functionary
 
   React.useEffect(() => {
     window.addEventListener(
@@ -33,7 +38,7 @@ export  function HeaderDashboard() {
          </div>
           <div className="flex items-center gap-4">
           <div className="hidden mb-2 p-2 border border-blue-500 rounded-full w-[50px] h-[50px] lg:flex justify-center items-center hover:bg-blue-500 hover:text-white transition-all">
-            <Link href={`/users/store/${id_auth}/store`}>
+            <Link href={type === "store" ? `/users/store/${id_auth}/store` : type === "chief" ? `/users/store/${id_auth}/chief` : `/users/store/${id_auth}/functionary/${id_functionary}`}>
             <User size={32}/>
             </Link>
           </div>
