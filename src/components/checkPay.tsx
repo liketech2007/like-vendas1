@@ -61,8 +61,8 @@ export const CheckPay = () => {
             Valor de pagamento: 6.000KZ
           </Typography>
           <Typography className="text-center font-normal">
-            IBAN: jegiuroshjgenmgneio <br />
-            Envia o comprovativo no whatsapp 944 757 305
+            IBAN: AO06004000002438415510149 <br />
+            Envia o comprovativo e o email que criaste com ele a conta no whatsapp 958 552 605
           </Typography>
         </DialogBody>
         <DialogFooter className="space-x-2">

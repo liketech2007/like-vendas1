@@ -73,7 +73,7 @@ export function MainProduct({ dataProduct,id_product }:any) {
     
      if(dateNew.getHours() < Number(time_open) || dateNew.getHours() > Number(time_close)) {
       console.log("oi")
-      setError("A loja está aberta")
+      setError("A loja está fechada")
       setLoading(false)
      } else {
       if(openDiolag === "sale") {

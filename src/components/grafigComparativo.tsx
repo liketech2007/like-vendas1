@@ -25,13 +25,22 @@ export function GrafigComparativo({ type,data }: any) {
   const dataGrafigSecond1 = filterGrafig(dataNow2)
   const dataGrafigSecond2 = filterDataGrafig2(dataGrafigSecond1,date1)
 
+  const quatDay = type === "day"? 0 : type === "week"? 7 : type === "fortnight"? 15 : type === "month"? 30 : 0
   const dataTable1 = filterDataTable(dataNow)
-  const dateForm1 = formDate(`${dateNow}`)
-  dataTable1.unshift(dateForm1)
+  const dateForm1 = formDate(`${date}`)
+  const date3 = new Date(date)
+  date3.setDate(date3.getDate() - quatDay)
+  const dateForm3 = formDate(`${date3}`)
+  dataTable1.unshift(`${dateForm3} / ${dateForm1}`)
 
   const dataTable2 = filterDataTable(dataNow2)
-  const dateForm2 = formDate(`${dateNow2}`)
-  dataTable2.unshift(dateForm2)
+  const dateForm2 = formDate(`${date1}`)
+  const date4 = new Date(date1)
+  date4.setDate(date4.getDate() - quatDay)
+  const dateForm4 = formDate(`${date4}`)
+  console.log()
+ 
+  dataTable2.unshift(`${dateForm4} / ${dateForm2}`)
 
   const dataGrafig = [
     dataGrafig2,

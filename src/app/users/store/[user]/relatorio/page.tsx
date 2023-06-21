@@ -1,7 +1,8 @@
 import { HeaderDashboard } from "@/components/headerDashbord";
 import { MainRelatorio } from "@/components/mainRelatorio";
 import { supabase } from "@/utils/supabase";
-export const revalidate = 1
+
+export const revalidate = 0
 
 async function getData(id_auth:string) {
   const store = await supabase

@@ -6,11 +6,12 @@ const date = new Date(dateNow)
     const productsToday = data.map((product: any) => {
     const todaySales = product.sales.filter((sale: any) => sale.created_at.split('T')[0] === today);
     const todayAdditions = product.addition.filter((addition: any) => addition.created_at.split('T')[0] === today);
-    const { sales, addition, ...rest } = data
+    const { sales, addition, ...rest } = product
+
     return {
+      ...rest,
       sales: todaySales,
       addition: todayAdditions,
-      rest,
     }
   });
   return productsToday;
@@ -31,14 +32,15 @@ const date = new Date(dateNow)
         const additionDate = new Date(addition.created_at).toISOString().split('T')[0];
         return additionDate >= oneWeekAgo && additionDate <= oneWeekAgo1;
       });
-      const { sales, addition, ...rest } = data
+      const { sales, addition, ...rest } = product
       return {
-        sales: todaySales,
-        addition: todayAdditions,
-        rest,
-      }
+      ...rest,
+      sales: todaySales,
+      addition: todayAdditions,
+    }
+      
     });
-  
+
     return productsWeek;
   }
   
@@ -57,12 +59,12 @@ const date = new Date(dateNow)
         return additionDate >= fifteenDaysAgo && additionDate <= fifteenDaysAgo1;
       });
   
-      const { sales, addition, ...rest } = data
+      const { sales, addition, ...rest } = product
       return {
-        sales: todaySales,
-        addition: todayAdditions,
-        rest,
-      }
+      ...rest,
+      sales: todaySales,
+      addition: todayAdditions,
+    }
     });
   
     return productsFifteenDays;
@@ -82,12 +84,12 @@ const date = new Date(dateNow)
         const additionDate = new Date(addition.created_at).toISOString().split('T')[0];
         return additionDate >= startOfMonth && additionDate <= startOfMonth1;
       });
-      const { sales, addition, ...rest } = data
+      const { sales, addition, ...rest } = product
       return {
-        sales: todaySales,
-        addition: todayAdditions,
-        rest,
-      }
+      ...rest,
+      sales: todaySales,
+      addition: todayAdditions,
+    }
     });
   
     return productsMonth;

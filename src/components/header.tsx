@@ -19,47 +19,7 @@ export default function Header() {
  
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col justify-center items-center gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <Link href="#proposito" className="flex items-center">
-          Propósito
-        </Link>
-      </Typography>
       
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <Link href="/sobre-nos" className="flex items-center">
-          Sobre Nós
-        </Link>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <Link href="#price" className="flex items-center">
-          Preços
-        </Link>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <Link href="#melhore" className="flex items-center">
-          melhore o teu negócio
-        </Link>
-      </Typography>
     </ul>
   );
  
