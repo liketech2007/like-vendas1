@@ -9,6 +9,7 @@ import { signup } from "@/app/auth/signup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { actionStoreRead } from "@/app/endpoints/store/read/action";
+import Image from "next/image";
 
 const schema = z.object({
   email: z.string(),
@@ -76,7 +77,7 @@ export function MainLogin() {
       </Typography>
       <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex-row">
         <div>
-          <img
+          <Image
             src="https://media.graphassets.com/Ad3UMdXLQkuZqMdgIrLw"
             alt="login"
             className="w-full h-full"

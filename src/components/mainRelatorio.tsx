@@ -22,7 +22,7 @@ export function MainRelatorio({type,data}:any) {
   useEffect(() => {
     const dataNow = filterData(data,type,date);
     setData1(dataNow)
-  }, [date])
+  }, [date,data,type])
 
   const dataGrafig = filterGrafig(data1);
   const tableRows1 = filterDataTable(data1)

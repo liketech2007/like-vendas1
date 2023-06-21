@@ -18,7 +18,7 @@ export function MainCreateProduct() {
         {/* <div className="max-w-[300px]">
           <img src="https://media.graphassets.com/Ad3UMdXLQkuZqMdgIrLw"  alt="login" className="w-full h-full"/>
         </div>  */}
-       <div className="min-w-[500px]">
+       <div className="min-w-full lg:min-w-[500px]">
         <FormProduct /> 
        </div>
       </div>

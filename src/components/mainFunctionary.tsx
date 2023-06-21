@@ -35,7 +35,7 @@ export function MainFunctionary({ dataFunctionary }:any) {
     const res = filterGrafigFunctionary(dataNow,isSale)
     setDataGrafig(res)
 
-  },[date])
+  },[date,dataFunctionary,isSale,typeData])
 
 
  const dataTable = filterDataSalesAddition(dataNow,isSale)

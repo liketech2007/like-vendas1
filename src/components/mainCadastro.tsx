@@ -7,6 +7,7 @@ import { useForm,SubmitHandler } from "react-hook-form";
 import CryptoJS from "crypto-js"
 import z from "zod"
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const schema = z.object({
   email: z.string(),
@@ -67,7 +68,7 @@ export function MainCadastro() {
       </Typography>
       <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex-row">
         <div>
-          <img src="https://media.graphassets.com/Ad3UMdXLQkuZqMdgIrLw"  alt="login" className="w-full h-full"/>
+          <Image src="https://media.graphassets.com/Ad3UMdXLQkuZqMdgIrLw"  alt="login" className="w-full h-full"/>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex gap-8 flex-col justify-center">
           <div className="flex flex-col md:flex-row gap-6">

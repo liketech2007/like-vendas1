@@ -61,7 +61,7 @@ export function MainProduct({ dataProduct,id_product }:any) {
     const res = filterGrafigFunctionary(dataNow,isSale)
     setDataGrafig(res)
 
-  },[date])
+  },[date,dataProduct,isSale,typeData])
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
      setLoading(true)
