@@ -35,7 +35,7 @@ export function Main() {
           </p>
         </div>
 
-        <div className="my-12 min-w-full mx-2 flex justify-center items-center max-h-[300px] lg:max-h-[800px] lg:h-[800px]">
+        <div className="my-12 min-w-full mx-2 flex justify-center items-center max-h-[400px] md:h-[600px] lg:max-h-[800px] lg:h-[800px]">
         <iframe className="w-full h-full" src="https://www.youtube.com/embed/80MzFKnGpQ0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
         </div>
 
