@@ -56,7 +56,6 @@ export function MainStore({ data }: any) {
       setLoading(false)
   }  
 
-  console.log(user)
   
   return (
     <main className="p-4 min-w-full flex justify-between">

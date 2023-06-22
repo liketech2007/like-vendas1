@@ -10,7 +10,7 @@ import {
   Avatar,
   Typography,
 } from "@material-tailwind/react";
-import { ChartBar, Cube, HardDrives, House, Rss, SignOut, User, Users } from "@phosphor-icons/react";
+import { ChartBar, Cube, HardDrives, House, NotePencil, Rss, SignOut, User, Users } from "@phosphor-icons/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
  
@@ -70,6 +70,14 @@ export default function SideBarDashbord() {
           Produtos
         </ListItem>
         </Link>
+        <Link href={`/users/store/${id_auth}/notas`}>
+        <ListItem>
+          <ListItemPrefix>
+          <NotePencil size={32} />
+          </ListItemPrefix>
+          Notas
+        </ListItem>
+        </Link>
         <Link href={`/users/store/${id_auth}/services`}>
         </Link>
         <ListItem onClick={() => {
@@ -94,7 +102,13 @@ export default function SideBarDashbord() {
           Produtos
         </ListItem>
         </Link>
-        <Link href={`/users/store/${id_auth}/services`}>
+        <Link href={`/users/store/${id_auth}/notas`}>
+        <ListItem>
+          <ListItemPrefix>
+           <NotePencil size={32} />
+          </ListItemPrefix>
+          Notas
+        </ListItem>
         </Link>
         <ListItem onClick={() => {
           localStorage.removeItem("user")

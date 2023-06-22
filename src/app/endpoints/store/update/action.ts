@@ -3,7 +3,7 @@ import { supabase } from "@/utils/supabase";
 
 
 export async function actionStoreUpdate({ id,number,name,logo,address,time_open,time_close}:any) {
-  console.log({ id,number,name,logo,address,time_open,time_close})
+
   const { data,statusText,error } = await supabase
   .from('store')
   .update({ 
