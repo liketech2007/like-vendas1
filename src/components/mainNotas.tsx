@@ -54,7 +54,7 @@ export function MainNotas({ data }:any) {
                 data.map((note:any) => {
                     const date = formDate(note.created_at)
                     return (
-                        <Card className="mt-6 w-96">
+                        <Card key={note.id} className="mt-6 w-96">
                         <CardBody>
                             <Typography variant="h5" color="blue-gray" className="mb-2">
                              {note.title}

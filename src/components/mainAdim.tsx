@@ -151,7 +151,7 @@ export function MainAdim({ isStores, data}: any) {
                                 feedbacks.map((feedback:any) => {
                                     const date = formDate(feedback.created_at)
                                     return (
-                                        <Card className="mt-6 w-96">
+                                        <Card key={feedback.id} className="mt-6 w-96">
                                         <CardBody>
                                             <Typography variant="h5" color="blue-gray" className="mb-2">
                                              loja com ID {feedback.id_store}
