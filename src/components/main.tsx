@@ -1,6 +1,8 @@
 "use client"
 import { Button } from "@material-tailwind/react";
-import Image from "next/image";
+import Link from "next/link";
+
+
 export function Main() {
     return (
         <main className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 min-h-[80vh]">
@@ -9,13 +11,18 @@ export function Main() {
           <div className="flex flex-col justify-between gap-10">
             <h1 className="text-5xl font-bold leading-relaxed">Chega de gerênciar a sua loja manualmente!</h1>
             <p>15 dias grátis</p>
-            <div className="max-w-[800px]">
-            <Button>Expermente já</Button>
+            <div className="max-w-[300px]">
+              <Button variant="gradient" size="sm" fullWidth className="mb-2 ">
+              <Link href="/cadastro">
+              <span>Expermente já</span>
+              </Link>
+            </Button>
             </div>
+            
           </div>
 
           <div id="radial" className="min-w-[50%] rounded-full bg-origin-content flex justify-center items-center">
-          <Image src="https://media.graphassets.com/CH3zVl2ZQl6FbcJrVSTy" alt="foto" />
+          <img src="https://media.graphassets.com/CH3zVl2ZQl6FbcJrVSTy" alt="foto" />
           </div>
         </div>
 
@@ -28,16 +35,13 @@ export function Main() {
           </p>
         </div>
 
-        <div className="my-12">
-        <video className="h-full w-full rounded-lg" controls>
-          <source src="/demo.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <div className="my-12 min-w-full mx-2 flex justify-center items-center max-h-[300px] lg:max-h-[800px] lg:h-[800px]">
+        <iframe className="w-full h-full" src="https://www.youtube.com/embed/80MzFKnGpQ0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
         </div>
 
         <div className="flex flex-col justify-between items-center lg:flex-row my-12 mb-12 gap-3 min-h-[70%]">
         <div id="radial" className="min-w-[50%] rounded-full bg-origin-content flex justify-center items-center">
-            <Image src="https://media.graphassets.com/l9inQ4T9G0cpRlv37Dlw" alt="foto" />
+            <img src="https://media.graphassets.com/l9inQ4T9G0cpRlv37Dlw" alt="foto" />
           </div>
           <div>
             <h3 className="text-2xl font-blod text-blue-500 my-4">Cadastro de Produtos Descomplicado</h3>
@@ -57,13 +61,13 @@ export function Main() {
           </div>
 
           <div id="radial" className="min-w-[50%] rounded-full bg-origin-content flex justify-center items-center">
-            <Image src="https://media.graphassets.com/O5EVoQmSGWSZp9WJLgO5" alt="foto" />
+            <img src="https://media.graphassets.com/O5EVoQmSGWSZp9WJLgO5" alt="foto" />
           </div>
         </div>
 
         <div className="flex flex-col justify-between items-center lg:flex-row my-12 mb-12 gap-3 min-h-[70%]">
-        <div id="radial" className="min-w-[50%] rounded-full bg-origin-content flex justify-center items-center">
-            <Image src="https://media.graphassets.com/m82RcWaARV6Hakx23X1k" alt="foto" />
+        <div id="radial"  className="min-w-[50%] rounded-full bg-origin-content flex justify-center items-center">
+            <img src="https://media.graphassets.com/m82RcWaARV6Hakx23X1k" alt="foto" />
           </div>
           <div>
             <h3 className="text-2xl font-blod text-blue-500 my-4">Relatórios e Análises Detalhados</h3>
@@ -82,15 +86,19 @@ export function Main() {
            </p>
         </div>
 
-        <div id="radial" className="min-w-[50%] rounded-full bg-origin-content flex justify-center items-center">
-          <Image src="https://media.graphassets.com/oDbk1sPgQcylfZoRuN9A" alt="foto" />
+        <div id="radial"  className="min-w-[50%] rounded-full bg-origin-content flex justify-center items-center">
+          <img src="https://media.graphassets.com/oDbk1sPgQcylfZoRuN9A" alt="foto" />
         </div>
       </div>
 
       <div className="flex justify-center items-center  my-12 mb-12">
-      <div className="max-w-[800px]">
-            <Button>Expermente já</Button>
-      </div>
+      <div className="max-w-[400px]">
+              <Button variant="gradient" size="sm" fullWidth className="mb-2 ">
+              <Link href="/cadastro">
+              <span>Expermente já</span>
+              </Link>
+            </Button>
+      </div> 
       </div>
       </main>
     )

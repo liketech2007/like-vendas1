@@ -77,7 +77,7 @@ export function MainLogin() {
       </Typography>
       <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex-row">
         <div>
-          <Image
+          <img
             src="https://media.graphassets.com/Ad3UMdXLQkuZqMdgIrLw"
             alt="login"
             className="w-full h-full"
