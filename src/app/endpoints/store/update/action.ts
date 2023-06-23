@@ -16,5 +16,5 @@ export async function actionStoreUpdate({ id,number,name,logo,address,time_open,
    })
   .eq('id', id)
 
-  return data == null ? statusText : data
+  return data
 }

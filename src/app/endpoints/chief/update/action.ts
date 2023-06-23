@@ -8,5 +8,5 @@ export async function actionChiefUpdate({ id,value}:any) {
   .update({ name: value })
   .eq('id', id)
 
-  return data == null ? statusText : data
+  return data
 }

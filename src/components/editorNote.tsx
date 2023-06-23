@@ -20,8 +20,10 @@ export function EditorNote({ value,id}:any) {
         setLoading(true)
       const { content,title } = data
        const res = await actionNoteUpdate({ id,title,content})
+       console.log(res)
         if(typeof res !== "string") {
             window.location.reload()
+            setLoading(false)
           } else {
             setError("Error Tente novamente")
             setLoading(false)

@@ -1,4 +1,4 @@
-import { IUpdateUser } from "@/types/updateUser";
+
 import { supabase } from "@/utils/supabase";
 
 export async function actionProductUpdate({ id,name,price,category,quantity,minimum_stock_level,description}:any) {
@@ -14,7 +14,7 @@ export async function actionProductUpdate({ id,name,price,category,quantity,mini
   })
   .eq('id', id)
 
-  console.log(data,error)
 
-  return data == null ? statusText : data
+
+  return data 
 }
