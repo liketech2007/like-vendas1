@@ -22,18 +22,13 @@ export function MainChief({ dataChief }:any) {
     </div>
     <div className="min-w-full max-w-full lg:max-w-[80%] lg:min-w-[80%] p-4 flex justify-center itemes-center flex-col">
     <div className="min-w-full flex justify-end mb-6">
-        <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(true)}/>
+        <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(!openEditor)}/>
     </div>
     <div>
     {
           openEditor && (
             <>
                 <EditorChiefEFunctionary type="chief" id={dataChief[0].id} value={dataChief[0].name} />
-                  <div className="w-full flex justify-center items-center mt-4">
-                  <Button  className="bg-transparent text-black mt-4" onClick={() => setOpenEditor(false)}>
-                      fechar
-                  </Button>
-                  </div>
             </>
           )
         }

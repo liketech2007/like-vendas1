@@ -1,6 +1,7 @@
 "use client"
 import { actionAdditionDelete } from "@/app/endpoints/addition_product/delete/action";
 import { actionFunctionayDelete } from "@/app/endpoints/functionary/delete/action";
+import { actionNoteDelete } from "@/app/endpoints/note/delete/action";
 import { actionProductDelete } from "@/app/endpoints/product/delete/action";
 import { updateQuatProduct } from "@/app/endpoints/product/updateQuat/action";
 import { actionSaleDelete } from "@/app/endpoints/sale_product/delete/action";
@@ -26,6 +27,9 @@ export function Delete({ id, type, quat}: any) {
           } else if (type === "sale") {
             await actionSaleDelete(Number(id));
             await updateQuatProduct(id,quat)
+            window.location.reload();
+          } else if (type === "note") {
+            await actionNoteDelete(Number(id))
             window.location.reload();
           } else {
             await actionAdditionDelete(Number(id));

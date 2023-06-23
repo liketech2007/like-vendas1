@@ -173,7 +173,7 @@ export function MainProduct({ dataProduct,id_product }:any) {
     <div className="min-w-full max-w-full lg:max-w-[80%] lg:min-w-[80%] p-4 flex justify-center itemes-center flex-col">
     <div className="min-w-full flex justify-between mb-6">
         <Delete id={dataProduct[0].id} type="product"/>
-        <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(true)}/>
+        <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(!openEditor)}/>
     </div>
     <div>
     {
@@ -190,11 +190,6 @@ export function MainProduct({ dataProduct,id_product }:any) {
                   description: dataProduct[0].description
                 }
                 } />
-                  <div className="w-full flex justify-center items-center mt-4">
-                  <Button  className="bg-transparent text-black mt-4" onClick={() => setOpenEditor(false)}>
-                      fechar
-                  </Button>
-                  </div>
             </>
           )
         }

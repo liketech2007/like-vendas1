@@ -67,7 +67,7 @@ export function MainStore({ data }: any) {
         user !== undefined && (
           <>
           <div className="min-w-full flex justify-end mb-6">
-        <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(true)}/>
+        <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(!openEditor)}/>
     </div>
     <div>
     {
@@ -80,11 +80,6 @@ export function MainStore({ data }: any) {
                   time_open: user.time_open,
                   time_close: user.time_close,
                 }} />
-                  <div className="w-full flex justify-center items-center mt-4">
-                  <Button  className="bg-transparent text-black mt-4" onClick={() => setOpenEditor(false)}>
-                      fechar
-                  </Button>
-                  </div>
             </>
           )
         }

@@ -8,6 +8,9 @@ import { useForm,SubmitHandler } from "react-hook-form";
 import { useUserLocalStorage } from "@/hooks/useUserLocalStorage";
 import { useFunctionary } from "@/hooks/useFunctionary";
 import { actionNoteCreate } from "@/app/endpoints/note/create/action";
+import { Delete } from "./delete";
+import { PencilSimple } from "@phosphor-icons/react";
+import { EditorNote } from "./editorNote";
 
 const schema = z.object({
     content: z.string(),
@@ -20,6 +23,7 @@ export function MainNotas({ data }:any) {
     const [openDialog, setOpenDialog] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
+    const [openEditor, setOpenEditor] = useState(false)
     const { register, handleSubmit,formState: { errors } } = useForm<IFormInput>();
     const functLocal = useFunctionary()
 
@@ -54,7 +58,18 @@ export function MainNotas({ data }:any) {
                 data.map((note:any) => {
                     const date = formDate(note.created_at)
                     return (
-                        <Card key={note.id} className="mt-6 w-96">
+                        <>
+                        {
+                          openEditor && <EditorNote id={note.id} value={{
+                            title:note.title,
+                            content:note.content,
+                          }} />
+                        }
+                          <Card key={note.id} className="mt-6 w-96">
+                          <CardBody className="flex justify-between items-center">
+                            <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(!openEditor)}/>
+                            <Delete id={note.id} type="note" />
+                          </CardBody>
                         <CardBody>
                             <Typography variant="h5" color="blue-gray" className="mb-2">
                              {note.title}
@@ -67,6 +82,7 @@ export function MainNotas({ data }:any) {
                             </Typography>
                         </CardBody>
                         </Card>
+                        </>
                     )
                 })
             }
@@ -91,7 +107,7 @@ export function MainNotas({ data }:any) {
             <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-4 p-4">
                <Input type="text" label="Titulo"{...register("title", { required: true })} /> 
-              <Textarea label="O que achou da plataforma e críticas" {...register("content", { required: true })}/>
+              <Textarea label="Escreve aqui o teu apontamento" {...register("content", { required: true })}/>
               
             </div>
             <div className="pt-0 flex gap-3 justify-center items-start p-4">

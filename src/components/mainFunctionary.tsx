@@ -74,18 +74,13 @@ export function MainFunctionary({ dataFunctionary }:any) {
     <div className="min-w-full max-w-full lg:max-w-[80%] lg:min-w-[80%] p-4 flex justify-center itemes-center flex-col">
     <div className="min-w-full flex justify-between mb-6">
         <Delete id={dataFunctionary[0].id} type="functionary"/>
-        <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(true)}/>
+        <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(!openEditor)}/>
     </div>
     <div>
     {
           openEditor && (
             <>
                 <EditorChiefEFunctionary type="functionary" id={dataFunctionary[0].id} value={dataFunctionary[0].name} />
-                  <div className="w-full flex justify-center items-center mt-4">
-                  <Button  className="bg-transparent text-black mt-4" onClick={() => setOpenEditor(false)}>
-                      fechar
-                  </Button>
-                  </div>
             </>
           )
         }
