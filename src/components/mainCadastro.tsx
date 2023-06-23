@@ -50,7 +50,7 @@ export function MainCadastro() {
       }))
       localStorage.setItem("type","store")
       const id_auth = res1.data[0]?.id_auth
-      router.push(`/users/store/${id_auth}/dashboard`)
+      window.location.href = `/users/store/${id_auth}/dashboard`
       setLoading(false)
     }else {
       setError(`Erro: tente novamente ou já existe uma conta com este email`)

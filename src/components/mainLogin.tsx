@@ -64,7 +64,7 @@ export function MainLogin() {
           id_functionary: res.id
         }))
         localStorage.setItem("type",typeSign)
-       typeSign === "store" ? router.push(`/users/store/${res.id_auth}/dashboard`) : typeSign === "functionary" ? router.push(`/users/store/${res.id_auth}/functionary/${res.id}`) : router.push(`/users/store/${res.id_auth}/chief`)
+        window.location.href = typeSign === "store" ? `/users/store/${res.id_auth}/dashboard` : typeSign === "functionary" ? `/users/store/${res.id_auth}/functionary/${res.id}` : `/users/store/${res.id_auth}/chief`
       }
     }
     setLoading(false);

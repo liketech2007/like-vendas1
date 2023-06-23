@@ -59,13 +59,13 @@ export function MainNotas({ data }:any) {
                     const date = formDate(note.created_at)
                     return (
                         <>
-                        {
-                          openEditor && <EditorNote id={note.id} value={{
-                            title:note.title,
-                            content:note.content,
-                          }} />
-                        }
                           <Card key={note.id} className="mt-6 w-96">
+                              {
+                              openEditor && <EditorNote id={note.id} value={{
+                                title:note.title,
+                                content:note.content,
+                              }} />
+                            }
                           <CardBody className="flex justify-between items-center">
                             <PencilSimple size={32} className="hover:text-blue-500 transition-all" onClick={() => setOpenEditor(!openEditor)}/>
                             <Delete id={note.id} type="note" />
