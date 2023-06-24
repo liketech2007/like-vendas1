@@ -9,7 +9,7 @@ export default function Footer() {
     <footer className="w-full bg-white p-8">
       <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 bg-white text-center md:justify-between">
       <Link href="/">
-          <Image src="https://media.graphassets.com/4JvM0qeQLyHeRMHl4jw7" width={150} height={100} alt="Logo do like vendas"/>
+        <Image src="https://media.graphassets.com/3vk87BaJTpGUxHshAaWZ" width={100} height={75} alt="Logo do like vendas"/>
          </Link>
         <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
         

@@ -34,7 +34,7 @@ export  function HeaderDashboard() {
       <Navbar className="sticky inset-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4">
         <div className="flex items-center justify-between text-blue-gray-900">
         <Link href={`/users/store/${id_auth}/dashboard`}>
-          <Image src="https://media.graphassets.com/4JvM0qeQLyHeRMHl4jw7" width={150} height={100} alt="Logo do like vendas"/>
+          <Image src="https://media.graphassets.com/3vk87BaJTpGUxHshAaWZ" width={100} height={60} alt="Logo do like vendas"/>
          </Link>
           <div className="flex items-center gap-4">
           <div className="hidden mb-2 p-2 border border-blue-500 rounded-full w-[50px] h-[50px] lg:flex justify-center items-center hover:bg-blue-500 hover:text-white transition-all">

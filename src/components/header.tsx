@@ -27,7 +27,7 @@ export default function Header() {
     <Navbar className="w-full mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
          <Link href="#">
-          <Image src="https://media.graphassets.com/4JvM0qeQLyHeRMHl4jw7" width={150} height={100} alt="Logo do like vendas"/>
+          <Image src="https://media.graphassets.com/3vk87BaJTpGUxHshAaWZ" width={100} height={60} alt="Logo do like vendas"/>
          </Link>
         <div className="hidden lg:block">{navList}</div>
         <div className="max-w-[150px]">

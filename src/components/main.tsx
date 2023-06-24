@@ -15,8 +15,8 @@ export function Main() {
         <main className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 min-h-[80vh]">
         <div className="flex flex-col justify-between items-center lg:flex-row my-4 gap-4 min-h-[70%] mb-12">
 
-          <div className="flex flex-col justify-between gap-10">
-            <h1 className="text-5xl font-bold leading-relaxed">Chega de gerênciar as suas vendas e o stock manualmente!!</h1>
+          <div className="flex flex-col justify-between items-center gap-10">
+            <h1 className="lg:text-4xl text-3xl font-bold leading-relaxed">Chega de gerênciar as suas vendas e o stock manualmente, com o <span className="text-blue-500 font-bold">Like Vendas</span>  é possivel automatizar este todo processo!</h1>
             <p>15 dias grátis</p>
             <div data-aos="zoom-in-left" className="max-w-[300px]">
               <Button variant="gradient" size="sm" fullWidth className="mb-2 ">
@@ -109,7 +109,7 @@ export function Main() {
       </div>
 
       <div className="fixed bottom-5 right-5">
-        <Link href="#" >
+        <Link href="https://is.gd/ZQ0uVd" >
         <WhatsappLogo size={48} className="bg-green-500 text-white p-3 rounded-full hover:bg-white hover:text-green-500 transition-all"/>
         </Link>
       </div>

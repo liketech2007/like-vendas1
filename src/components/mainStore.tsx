@@ -87,33 +87,33 @@ export function MainStore({ data }: any) {
           <div className="rounded-full border border-blue-500 max-w-[100px] max-h-[100px]">
               <Avatar src={user.logo} size="xl" alt="user" />
             </div>
-            <Typography variant="h2" className="my-4">
+            <Typography variant="h4" className="my-4 bg-blue-500 text-white p-3 rounded-lg max-w-[200px] text-center">
                 {user.name}
             </Typography>
-            <Typography className="my-2 mb-4">
+            <Typography className="my-2 mb-4 min-w-full border border-blue-500 border-b border-t-0  p-3 hover:text-white hover:bg-blue-500 shadow-lg rounded-lg">
                 {user.email}
             </Typography>
-            <div className="flex flex-col lg:lflex-row gap-4">
-            <div className="flex flex-col justify-start items-start gap-4">
-              <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
+            <div className="min-w-full flex flex-col lg:lflex-row gap-4">
+            <div className="min-w-full flex flex-col justify-start items-start gap-4">
+              <div className="min-w-full border border-blue-500 border-b border-t-0  p-3 hover:text-white hover:bg-blue-500 shadow-lg rounded-lg">
                   <span className="font-bold">Telefone:</span> {user.number}
                 </div>
-                <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
+                <div className="min-w-full border border-blue-500 border-b border-t-0  p-3 hover:text-white hover:bg-blue-500 shadow-lg rounded-lg">
                   <span className="font-bold">Endereço:</span> {user.address}
                 </div>
               </div>
-              <div className="w-full flex md:justify-end">
-              <div className="flex flex-col gap-4">
-                <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
+              <div className="min-w-full flex">
+              <div className="min-w-full flex flex-col gap-4">
+                <div className="min-w-full border border-blue-500 border-b border-t-0  p-3 hover:text-white hover:bg-blue-500 shadow-lg rounded-lg">
                   <span className="font-bold">Início do serviço:</span> {service_start_date}
                 </div>
-                <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
+                <div className="min-w-full border border-blue-500 border-b border-t-0  p-3 hover:text-white hover:bg-blue-500 shadow-lg rounded-lg">
                   <span className="font-bold">Termino do serviço:</span> {end_service_date}
                 </div>
-                <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
+                <div className="min-w-full border border-blue-500 border-b border-t-0  p-3 hover:text-white hover:bg-blue-500 shadow-lg rounded-lg">
                   <span className="font-bold">Hora de abrir:</span> {user.time_open}
                 </div>
-                <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
+                <div className="min-w-full border border-blue-500 border-b border-t-0  p-3 hover:text-white hover:bg-blue-500 shadow-lg rounded-lg">
                   <span className="font-bold">Hora de fechar:</span> {user.time_close}
                 </div>
               </div>
