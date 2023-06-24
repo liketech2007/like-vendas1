@@ -16,7 +16,7 @@ export function MainChief({ dataChief }:any) {
   const [openEditor, setOpenEditor] = useState<boolean>(false)
 
   return (
-    <main className="p-4 min-w-full flex justify-between">
+    <main className="min-w-full flex justify-between">
     <div className="hidden lg:block">
       <SideBarDashbord />
     </div>
@@ -35,7 +35,7 @@ export function MainChief({ dataChief }:any) {
     </div>
     <div className="flex gap-2 justify-between flex-wrap">
     <div className="flex flex-col gap-6">
-    <Typography variant="h1">
+    <Typography variant="h1" className="p-2 rounded-lg bg-blue-500 text-white max-w-[400px] text-center">
         {dataChief[0].name}
       </Typography>
       <div><span className="">Email:</span> {dataChief[0].email}</div>

@@ -2,6 +2,7 @@
 import { Typography } from "@material-tailwind/react";
 import Link from "next/link";
 import Image from "next/image";
+import { InstagramLogo } from "@phosphor-icons/react";
  
 export default function Footer() {
   return (
@@ -11,6 +12,7 @@ export default function Footer() {
           <Image src="https://media.graphassets.com/4JvM0qeQLyHeRMHl4jw7" width={150} height={100} alt="Logo do like vendas"/>
          </Link>
         <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
+        
           <li>
             <Typography
               as="a"
@@ -56,6 +58,19 @@ export default function Footer() {
             >
              <Link href="/cadastro">
                Criar Conta
+              </Link>
+            </Typography>
+          </li>
+
+          <li>
+            <Typography
+              as="a"
+              href="#"
+              color="blue-gray"
+              className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+            >
+              <Link href="https://www.instagram.com/agenciacover1/">
+               <InstagramLogo size={32} />
               </Link>
             </Typography>
           </li>

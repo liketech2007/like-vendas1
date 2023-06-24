@@ -52,8 +52,12 @@ export function FormSecond({ type }:any) {
       <div className="">
         <Input label="Email" type="email" {...register("email", { required: true, pattern: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/i })}/>
       </div>
-      <div className="">
-        <Input label="Password" type="password" {...register("password", { required: true, pattern: /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/i})}/>
+      <div>
+            <Input type="password" label="Password" className="w-full" {...register("password", { required: true, pattern: /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/i})}/>
+            <p className="text-xs font-thin p-3">
+              8 Digítos, 1 Letra minúscula, 1 Maiúscula, 1 Número e um caracter especial (#$%&?) .<br />
+              Ex: Abcdefgh123#
+            </p>
       </div>
       <Button type="submit" className="flex justify-center gap-2 items-center">
         Criar

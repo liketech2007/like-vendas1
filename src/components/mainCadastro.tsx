@@ -61,8 +61,8 @@ export function MainCadastro() {
   }
   return (
     <main className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 min-h-[80vh]">
-      <Typography variant="h2" className="my-8 mb-12">
-        <div className="my-16 text-center">
+      <Typography variant="h2" className="my-8 mb-12 flex justify-center items-center">
+        <div className="my-16 p-2 rounded-lg bg-blue-500 text-white max-w-[400px] text-center">
         Cadastra-se já
         </div>
       </Typography>
@@ -76,8 +76,9 @@ export function MainCadastro() {
             <Input  label="Email" className="w-full" {...register("email", { required: true, pattern: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/i })}/>
             <div>
             <Input type="password" label="Password" className="w-full" {...register("password", { required: true, pattern: /^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&? "]).*$/i})}/>
-            <p className="text-xs font-thin">
-              8 Digítos, 1 Letra minúscula, 1 Maiúscula e 1 Número
+            <p className="text-xs font-thin p-3">
+              8 Digítos, 1 Letra minúscula, 1 Maiúscula, 1 Número e um caracter especial (#$%&?) .<br />
+              Ex: Abcdefgh123#
             </p>
             </div>
             <Input label="Nome da Loja" className="w-full" {...register("nameStore", { required: true })}/>

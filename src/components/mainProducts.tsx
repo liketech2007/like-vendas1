@@ -19,7 +19,7 @@ export function MainProducts({ data }:any) {
   const id_auth = useIdAuth()
 
   return (
-    <main className="p-4 min-w-full flex justify-between">
+    <main className="min-w-full flex justify-between">
     <div className="hidden lg:block">
       <SideBarDashbord />
     </div>

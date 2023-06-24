@@ -67,7 +67,7 @@ export function MainFunctionary({ dataFunctionary }:any) {
     },
   };
   return (
-    <main className="p-4 min-w-full flex justify-between">
+    <main className="min-w-full flex justify-between">
     <div className="hidden lg:block">
       <SideBarDashbord />
     </div>

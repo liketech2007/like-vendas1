@@ -58,12 +58,12 @@ export function MainRelatorio({type,data}:any) {
     },
   };
   return (
-    <main className="p-4 min-w-full flex justify-between">
+    <main className="min-w-full flex justify-between">
     <div className="hidden lg:block">
       <SideBarDashbord />
     </div>
     <div className="min-w-full max-w-full lg:max-w-[80%] lg:min-w-[80%] p-4 flex justify-center itemes-center flex-col">
-    <Typography variant="h1">
+    <Typography variant="h1" className="p-2 rounded-lg bg-blue-500 text-white max-w-[400px] text-center">
         Ralatório
       </Typography>
 

@@ -58,7 +58,7 @@ export function MainStore({ data }: any) {
 
   
   return (
-    <main className="p-4 min-w-full flex justify-between">
+    <main className="min-w-full flex justify-between">
     <div className="hidden lg:block">
       <SideBarDashbord />
     </div>
@@ -90,87 +90,35 @@ export function MainStore({ data }: any) {
             <Typography variant="h2" className="my-4">
                 {user.name}
             </Typography>
-            <Typography className="my-2">
+            <Typography className="my-2 mb-4">
                 {user.email}
             </Typography>
             <div className="flex flex-col lg:lflex-row gap-4">
             <div className="flex flex-col justify-start items-start gap-4">
-              <div className="border-b border-r-0 border-t-0 border-l-0 border-blue-500 lg:py-4 lg:my-2 flex gap-1 py-3">
+              <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
                   <span className="font-bold">Telefone:</span> {user.number}
                 </div>
-                <div className="border-b border-r-0 border-t-0 border-l-0 border-blue-500 lg:py-4 lg:my-2 flex gap-1 py-3">
+                <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
                   <span className="font-bold">Endereço:</span> {user.address}
                 </div>
               </div>
               <div className="w-full flex md:justify-end">
               <div className="flex flex-col gap-4">
-                <div>
+                <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
                   <span className="font-bold">Início do serviço:</span> {service_start_date}
                 </div>
-                <div>
+                <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
                   <span className="font-bold">Termino do serviço:</span> {end_service_date}
                 </div>
-                <div>
+                <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
                   <span className="font-bold">Hora de abrir:</span> {user.time_open}
                 </div>
-                <div>
+                <div className="bg-blue-500 text-white p-3 shadow-lg rounded-lg">
                   <span className="font-bold">Hora de fechar:</span> {user.time_close}
                 </div>
               </div>
             </div>
             </div>
-
-              <div className="w-full">
-              {
-                  data.length  > 0 ? (
-                    <>
-                     <Typography variant="h1" className="my-4">
-                          Chefe
-                      </Typography>
-                      <Card className="overflow-scroll lg:overflow-none mt-8 max-w-[600px]">
-                       
-                      <table className="text-center">
-                        <thead>
-                          <tr>
-                            {["nome","email","senha"].map((head) => (
-                              <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 px-2 py-4 text-xs">
-                                <Typography
-                                  variant="small"
-                                  color="blue-gray"
-                                  className="font-normal leading-none opacity-70"
-                                >
-                                  {head}
-                                </Typography>
-                              </th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                        <tr className="even:bg-blue-gray-50/50 hover:bg-blue-500 hover:text-white transition-all" onClick={() => {
-                          router.push(`/users/store/${id_auth}/chief`)
-                          }}>
-                          {[`${data[0].name}`,`${data[0].email}`,`${decryptedPassword}`].map((item, index) => (
-                              <td key={index} className="px-2 py-4 text-xs">
-                                <Typography variant="small"  className="font-normal">
-                                  {item}
-                                </Typography>
-                              </td>
-                          ))}
-                          </tr>
-                        </tbody>
-                      </table>
-                    </Card>
-                    </>
-                  ) :
-                 (
-                  <div className="my-8 mx-4 max-w-[250px]">
-                    <Button onClick={() => setOpenFormChief(!openFormChief)}>{
-                      !openFormChief? "Adicionar Chief" : "Fechar"
-                    }</Button>
-                   </div> 
-                  )
-              }
-              </div>
           </>
         )
       }

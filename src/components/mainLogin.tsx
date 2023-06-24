@@ -72,8 +72,8 @@ export function MainLogin() {
 
   return (
     <main className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 min-h-[80vh]">
-      <Typography variant="h2" className="my-8 mb-12">
-        <div className="my-16 text-center">Entrar já</div>
+      <Typography variant="h2" className="my-8 mb-12 flex justify-center items-center">
+        <div className="my-16 text-center p-2 rounded-lg bg-blue-500 text-white max-w-[400px]">Entrar já</div>
       </Typography>
       <div className="w-full flex flex-col justify-center items-center gap-4 lg:flex-row">
         <div>
@@ -88,7 +88,6 @@ export function MainLogin() {
           className="flex gap-8 flex-col justify-center">
             <div className="flex gap-4">
               <Radio id="html" name="type" label="loja" onChange={() => setTypeSign("store")}/>
-              <Radio id="html" name="type" label="chefe" onChange={() => setTypeSign("chief")}/>
               <Radio id="react" name="type" label="funcionário" onChange={() => setTypeSign("functionary")}/>
               </div>
               <hr />

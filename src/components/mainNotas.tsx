@@ -48,11 +48,16 @@ export function MainNotas({ data }:any) {
         setLoading(false)
     }  
     return (
-        <main className="p-4 min-w-full flex justify-between">
+        <main className="min-w-full flex justify-between">
             <div className="hidden lg:block">
             <SideBarDashbord />
             </div>
-            <div className="min-w-full max-w-full lg:max-w-[80%] lg:min-w-[80%] p-4 flex justify-center itemes-center flex-wrap gap-6">
+            
+            <div className="min-w-full max-w-full lg:max-w-[80%] lg:min-w-[80%]">
+            <Typography variant="h1" className="self-end p-2 rounded-lg bg-blue-500 text-white max-w-[400px] text-center mt-6">
+              Notas
+            </Typography>
+            <div className="p-4 flex justify-center itemes-center flex-wrap gap-6">
             {
                 
                 data.map((note:any) => {
@@ -136,6 +141,7 @@ export function MainNotas({ data }:any) {
       </div>
       <div className="fixed bottom-5 right-5">
                 <Button onClick={() => setOpenDialog(true)}>Adicionar Nota</Button>
+    </div>
     </div>
     </div>
     </main>
